@@ -1,10 +1,23 @@
-# Instalacja środowiska
+# GramatykiGrafowe Grupa 5 projekt 1
 
-Projekt został przetestowany na Python 3.11.0 i 3.9.6 – na obu wersjach działa poprawnie.
+### Setup
 
-1. Wersję Pythona możesz sprawdzić poprzez wywołanie komendy:
-    ```bash
-    python --versiona
-2. Zainstaluj wymagane pakiety, wykonując polecenie:
-   ```bash
-   pip install -r requirements.txt
+```
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+pip install -e .
+```
+
+### Test
+
+```
+pip install pytest
+python -m pytest
+```
+
+### Run
+
+```
+python examples/p1.py
+```
