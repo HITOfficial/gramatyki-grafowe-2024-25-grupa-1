@@ -19,5 +19,6 @@ python -m pytest
 ### Run
 
 ```
-python examples/p1.py
+python productions/p1.py
+python productions/p2.py
 ```
