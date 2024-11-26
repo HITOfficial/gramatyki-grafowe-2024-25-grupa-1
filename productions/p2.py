@@ -1,4 +1,4 @@
-from GramatykiGrafowe import Graph, Node
+from GramatykiGrafowe import Graph, Node, NodeQ
 
 
 def predicate(get_node):
@@ -124,7 +124,7 @@ def create_start_graph():
     v3 = Node(label="3", x=10, y=10, h=False)
     v4 = Node(label="4", x=0, y=10, h=False)
     v5 = Node(label="5", x=10, y=5, h=True)
-    q = Node(label="Q", x=5, y=5, R=True)
+    q = NodeQ(label="Q", x=5, y=5, R=True)
 
     nodes = [v1, v2, v3, v4, v5, q]
 

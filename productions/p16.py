@@ -1,4 +1,4 @@
-from GramatykiGrafowe import Graph, Node
+from GramatykiGrafowe import Graph, Node, NodeQ
 from GramatykiGrafowe.utils import center_coords
 
 
@@ -21,7 +21,7 @@ def create_left_graph():
     v4 = Node(id=4)
     v5 = Node(id=5)
     p = Node(id=6)
-    
+
     edge_vertices = [v1, v2, v3, v4, v5]
 
     graph.add_node(v1)
@@ -33,7 +33,7 @@ def create_left_graph():
 
     for v in edge_vertices:
         graph.add_edge(v, p)
-    
+
     return graph
 
 
@@ -45,7 +45,7 @@ def create_start_graph():
     v3 = Node(label="3", x=10, y=10, h=False)
     v4 = Node(label="4", x=0, y=10, h=False)
     v5 = Node(label="5", x=-5, y=5, h=False)
-    p = Node(label="P", x=5, y=5, R=True)
+    p = NodeQ(label="P", x=5, y=5, R=True)
 
     edge_vertices = [v1, v2, v3, v4, v5]
 
@@ -58,7 +58,7 @@ def create_start_graph():
 
     for v in edge_vertices:
         graph.add_edge(v, p)
-    
+
     return graph
 
 
@@ -66,5 +66,7 @@ if __name__ == "__main__":
 
     graph = create_start_graph()
     left_graph = create_left_graph()
-    applied = graph.apply_production(left_graph, transition=transition, predicate=predicate)
+    applied = graph.apply_production(
+        left_graph, transition=transition, predicate=predicate
+    )
     graph.show()
