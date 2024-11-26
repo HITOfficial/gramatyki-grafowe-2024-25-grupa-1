@@ -39,6 +39,9 @@ class NodeQ(NodeAbstart):
     ):
         super().__init__(label, x, y, id)
         self.R = R
+    
+    def __repr__(self) -> str:
+        return f"{self.label}(R={(int)(self.R)})"
 
 
 class Node(NodeAbstart):
@@ -48,6 +51,9 @@ class Node(NodeAbstart):
     ):
         super().__init__(label, x, y, id)
         self.h = h
+
+    def __repr__(self) -> str:
+        return f"{self.label}(h={(int)(self.h)})"
 
 
 class Production:
@@ -81,11 +87,15 @@ class Graph:
     def get_node(self, node_id: int):
         return self.nodes_lookup_table.get(node_id, None)
 
-    def add_edge(self, u: NodeAbstart, v: NodeAbstart) -> None:
-        self.underlying.add_edge(u, v)
+    def add_edge(self, u: NodeAbstart, v: NodeAbstart, B = None) -> None:
+        self.underlying.add_edge(u, v, B = B)
 
     def remove_edge(self, u: NodeAbstart, v: NodeAbstart) -> None:
         self.underlying.remove_edge(u, v)
+
+    def get_edge_b_value(self, u: NodeAbstart, v: NodeAbstart) -> None:
+        b_values = nx.get_edge_attributes(self.underlying, "B")
+        return b_values.get((u, v)) or b_values.get((v, u))
 
     def has_node(self, node: NodeAbstart) -> bool:
         return node in self.underlying
@@ -120,5 +130,22 @@ class Graph:
             labels[node] = node.label
             pos[node] = (node.x, node.y)
 
-        nx.draw(self.underlying, ax=ax, pos=pos, labels=labels)
+        nx.draw(
+            self.underlying, 
+            pos,
+            node_color='lightblue',
+            edge_color='gray',
+            font_weight='bold',
+            labels=labels
+        )
+
+        b_values = nx.get_edge_attributes(self.underlying, "B")
+        edge_labels = {(edge): "B=" + str((int)(b_values[edge])) for edge in self.underlying.edges if b_values[edge] is not None}
+        nx.draw_networkx_edge_labels(
+            self.underlying, pos,
+            edge_labels=edge_labels,
+            font_color='black')
+        
+        nx.draw_networkx_labels(self.underlying, pos, labels=labels)
+
         plt.show()

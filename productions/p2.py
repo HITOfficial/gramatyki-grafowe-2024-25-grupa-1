@@ -28,6 +28,11 @@ def transition(g: Graph, get_node):
         label="v", x=(v1.x + v2.x + v3.x + v4.x) / 4, y=(v1.y + v2.y + v3.y + v4.y) / 4
     )
 
+    e12B = g.get_edge_b_value(v1, v2)
+    e25B = g.get_edge_b_value(v2, v5)
+    e34B = g.get_edge_b_value(v3, v4)
+    e41B = g.get_edge_b_value(v4, v1)
+
     g.remove_edge(v1, v2)
     g.remove_edge(v3, v4)
     g.remove_edge(v4, v1)
@@ -49,38 +54,38 @@ def transition(g: Graph, get_node):
         g.add_node(node)
 
     edges = [
-        (v1, v12),
-        (v12, v2),
-        (v2, v5),
-        (v5, v3),
-        (v3, v34),
-        (v34, v4),
-        (v4, v41),
-        (v41, v1),
-        (q1, v1),
-        (q1, v12),
-        (q1, v_center),
-        (q1, v41),
-        (q2, v12),
-        (q2, v2),
-        (q2, v5),
-        (q2, v_center),
-        (q3, v_center),
-        (q3, v5),
-        (q3, v3),
-        (q3, v34),
-        (q4, v41),
-        (q4, v_center),
-        (q4, v34),
-        (q4, v4),
-        (v_center, v12),
-        (v_center, v5),
-        (v_center, v34),
-        (v_center, v41),
+        (v1, v12, e12B),
+        (v12, v2, e12B),
+        (v2, v5, e25B),
+        (v5, v3, e25B),
+        (v3, v34, e34B),
+        (v34, v4, e34B),
+        (v4, v41, e41B),
+        (v41, v1, e41B),
+        (q1, v1, None),
+        (q1, v12, None),
+        (q1, v_center, None),
+        (q1, v41, None),
+        (q2, v12, None),
+        (q2, v2, None),
+        (q2, v5, None),
+        (q2, v_center, None),
+        (q3, v_center, None),
+        (q3, v5, None),
+        (q3, v3, None),
+        (q3, v34, None),
+        (q4, v41, None),
+        (q4, v_center, None),
+        (q4, v34, None),
+        (q4, v4, None),
+        (v_center, v12, False),
+        (v_center, v5, False),
+        (v_center, v34, False),
+        (v_center, v41, False)
     ]
 
-    for node1, node2 in edges:
-        g.add_edge(node1, node2)
+    for node1, node2, B in edges:
+        g.add_edge(node1, node2, B)
 
 
 def create_left_graph():
@@ -99,19 +104,19 @@ def create_left_graph():
         graph.add_node(node)
 
     edges = [
-        (v1, v2),
-        (v2, v5),
-        (v5, v3),
-        (v3, v4),
-        (v4, v1),
-        (v1, q),
-        (v2, q),
-        (v3, q),
-        (v4, q),
+        (v1, v2, True),
+        (v2, v5, True),
+        (v5, v3, True),
+        (v3, v4, True),
+        (v4, v1, True),
+        (v1, q, None),
+        (v2, q, None),
+        (v3, q, None),
+        (v4, q, None),
     ]
 
-    for node1, node2 in edges:
-        graph.add_edge(node1, node2)
+    for node1, node2, B in edges:
+        graph.add_edge(node1, node2, B)
 
     return graph
 
@@ -132,19 +137,19 @@ def create_start_graph():
         graph.add_node(node)
 
     edges = [
-        (v1, v2),
-        (v2, v5),
-        (v5, v3),
-        (v3, v4),
-        (v4, v1),
-        (v1, q),
-        (v2, q),
-        (v3, q),
-        (v4, q),
+        (v1, v2, True),
+        (v2, v5, True),
+        (v5, v3, True),
+        (v3, v4, True),
+        (v4, v1, True),
+        (v1, q, None),
+        (v2, q, None),
+        (v3, q, None),
+        (v4, q, None),
     ]
 
-    for node1, node2 in edges:
-        graph.add_edge(node1, node2)
+    for node1, node2, B in edges:
+        graph.add_edge(node1, node2, B)
 
     return graph
 
