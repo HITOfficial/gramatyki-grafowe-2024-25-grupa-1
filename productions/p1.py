@@ -1,4 +1,4 @@
-from GramatykiGrafowe import Graph, Node, NodeQ
+from GramatykiGrafowe import Graph, Node, NodeQ, Production
 
 
 def predicate(get_node):
@@ -132,7 +132,6 @@ if __name__ == "__main__":
 
     graph = create_start_graph()
     left_graph = create_left_graph()
-    applied = graph.apply_production(
-        left_graph, transition=transition, predicate=predicate
-    )
+    production = Production(left_graph, transition, predicate)
+    applied = graph.apply_production(production)
     graph.show()

@@ -50,6 +50,13 @@ class Node(NodeAbstart):
         self.h = h
 
 
+class Production:
+    def __init__(self, left_graph: Graph, transition, predicate):
+        self.left_graph = left_graph
+        self.transition = transition
+        self.predicate = predicate
+
+
 class Graph:
 
     def __init__(self):
@@ -83,9 +90,9 @@ class Graph:
     def has_node(self, node: NodeAbstart) -> bool:
         return node in self.underlying
 
-    def apply_production(self, left_graph: Graph, transition, predicate):
+    def apply_production(self, production: Production):
         matcher = nx.algorithms.isomorphism.GraphMatcher(
-            self.underlying, left_graph.underlying
+            self.underlying, production.left_graph.underlying
         )
         subgraph_isomorphic = matcher.subgraph_is_isomorphic()
 
@@ -94,9 +101,9 @@ class Graph:
 
         for mapping in matcher.subgraph_monomorphisms_iter():
             reverse_mapping = dict((v, k) for k, v in mapping.items())
-            partial = lambda node_id: get_izo_node(reverse_mapping, left_graph, node_id)
-            if predicate(partial):
-                transition(self, partial)
+            partial = lambda node_id: get_izo_node(reverse_mapping, production.left_graph, node_id)
+            if production.predicate(partial):
+                production.transition(self, partial)
                 break
 
         return subgraph_isomorphic
