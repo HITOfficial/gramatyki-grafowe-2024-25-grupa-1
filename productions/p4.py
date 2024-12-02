@@ -1,4 +1,4 @@
-from src.GramatykiGrafowe import Graph, Node
+from GramatykiGrafowe import Graph, Node, NodeQ, Production
 
 
 def split_edge(g: Graph, v1:Node, v2: Node):
@@ -62,7 +62,7 @@ def transition(g: Graph, get_node):
         q_x = q_x / 4
         q_y = q_y / 4
 
-        q_node = Node(label="Q", x=q_x, y=q_y, R=False)
+        q_node = NodeQ(label="Q", x=q_x, y=q_y, R=False)
         q_nodes.append(q_node)
         g.add_node(q_node)
         for node in part:
@@ -86,3 +86,9 @@ def create_left_graph():
 
     return graph
 
+if __name__ == "__main__":
+    graph = create_left_graph()
+    left_graph = create_left_graph()
+    production = Production(left_graph, transition, predicate)
+    applied = graph.apply_production(production)
+    graph.show()

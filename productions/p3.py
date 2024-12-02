@@ -1,4 +1,4 @@
-from GramatykiGrafowe import Graph, Node
+from GramatykiGrafowe import Graph, Node, NodeQ, Production
 
 
 def predicate(get_node):
@@ -127,7 +127,7 @@ def create_start_graph():
     v4 = Node(label="4", x=0, y=10, h=False)
     v5 = Node(label="5", x=10, y=5, h=True)
     v6 = Node(label="6", x=5, y=0, h=True)
-    q = Node(label="Q", x=5, y=5, R=True)
+    q = NodeQ(label="Q", x=5, y=5, R=True)
 
     nodes = [v1, v2, v3, v4, v5, v6, q]
 
@@ -157,7 +157,6 @@ if __name__ == "__main__":
 
     graph = create_start_graph()
     left_graph = create_left_graph()
-    applied = graph.apply_production(
-        left_graph, transition=transition, predicate=predicate
-    )
+    production = Production(left_graph, transition, predicate)
+    applied = graph.apply_production(production)
     graph.show()
