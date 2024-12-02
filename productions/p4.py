@@ -73,21 +73,76 @@ def transition(g: Graph, get_node):
 
 def create_left_graph():
     graph = Graph()
-    nodes = [Node(id=i) for i in range(1, 8)]
+    
+    v1 = Node(id = 1)
+    v2 = Node(id = 2)
+    v3 = Node(id = 3)
+    v4 = Node(id = 4)
+    v5 = Node(id = 5)
+    v6 = Node(id = 6)
+    q = NodeQ(id = 7)
+
+    nodes = [v1, v2, v3, v4, v5, v6, q]
 
     for node in nodes:
         graph.add_node(node)
 
-    for i in range(5):
-        graph.add_edge(nodes[i], nodes[i+1])
-        if (i+1) % 3 != 0:
-            graph.add_edge(nodes[i], nodes[-1])
-    graph.add_edge(nodes[5], nodes[0])
+    edges = [
+        (v1, v2),
+        (v2, v5),
+        (v5, v3),
+        (v3, v4),
+        (v4, v6),
+        (v6, v1),
+        (q, v1),
+        (q, v2),
+        (q, v3),
+        (q, v4)
+    ]
+
+    for node1, node2 in edges:
+        graph.add_edge(node1, node2)
 
     return graph
 
+
+def create_start_graph():
+    graph = Graph()
+    
+    v1 = Node(x = 0, y = 0)
+    v2 = Node(x = 10, y = 0)
+    v3 = Node(x = 10, y = 10)
+    v4 = Node(x = 0, y = 10)
+    v5 = Node(x = 10, y = 5)
+    v6 = Node(x = 0, y = 5)
+    q = NodeQ(x = 5, y = 5)
+
+    nodes = [v1, v2, v3, v4, v5, v6, q]
+
+    for node in nodes:
+        graph.add_node(node)
+
+    edges = [
+        (v1, v2),
+        (v2, v5),
+        (v5, v3),
+        (v3, v4),
+        (v4, v6),
+        (v6, v1),
+        (q, v1),
+        (q, v2),
+        (q, v3),
+        (q, v4)
+    ]
+
+    for node1, node2 in edges:
+        graph.add_edge(node1, node2, True)
+
+    return graph
+
+
 if __name__ == "__main__":
-    graph = create_left_graph()
+    graph = create_start_graph()
     left_graph = create_left_graph()
     production = Production(left_graph, transition, predicate)
     applied = graph.apply_production(production)
