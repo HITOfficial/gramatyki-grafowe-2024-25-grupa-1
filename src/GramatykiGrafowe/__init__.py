@@ -118,7 +118,7 @@ class Graph:
 
         return subgraph_isomorphic
 
-    def show(self):
+    def show(self, with_attr: bool = False, attr_label_offset: float = -0.5):
         _, ax = plt.subplots()
         ax.set_aspect("equal", adjustable="datalim")
         ax.set(xlabel="$x$", ylabel="$y$")
@@ -145,7 +145,23 @@ class Graph:
             self.underlying, pos,
             edge_labels=edge_labels,
             font_color='black')
-        
-        nx.draw_networkx_labels(self.underlying, pos, labels=labels)
+
+        if with_attr:
+            labels, pos = {}, {}
+
+            for node in self.underlying.nodes:
+                pos[node] = (node.x, node.y + attr_label_offset)
+                attr_text = "\n".join(
+                    f"{key}={value}"
+                    for key, value in vars(node).items()
+                    if value is not None and key != 'label')
+                labels[node] = attr_text
+
+            nx.draw_networkx_labels(
+                self.underlying,
+                pos,
+                labels=labels,
+                font_weight='light',
+                font_size='8')
 
         plt.show()
