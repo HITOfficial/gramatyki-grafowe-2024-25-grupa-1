@@ -18,14 +18,12 @@ def transition(g: Graph, get_node):
     v4 = get_node(4)
     q = get_node(5)
 
-    v12 = Node(label="v", x=(v1.x + v2.x) / 2, y=(v1.y + v2.y) / 2)
-    v23 = Node(label="v", x=(v2.x + v3.x) / 2, y=(v2.y + v3.y) / 2)
-    v34 = Node(label="v", x=(v3.x + v4.x) / 2, y=(v3.y + v4.y) / 2)
-    v41 = Node(label="v", x=(v4.x + v1.x) / 2, y=(v4.y + v1.y) / 2)
+    v12 = Node(x=(v1.x + v2.x) / 2, y=(v1.y + v2.y) / 2)
+    v23 = Node(x=(v2.x + v3.x) / 2, y=(v2.y + v3.y) / 2)
+    v34 = Node(x=(v3.x + v4.x) / 2, y=(v3.y + v4.y) / 2)
+    v41 = Node(x=(v4.x + v1.x) / 2, y=(v4.y + v1.y) / 2)
 
-    v_center = Node(
-        label="v", x=(v1.x + v2.x + v3.x + v4.x) / 4, y=(v1.y + v2.y + v3.y + v4.y) / 4
-    )
+    v_center = Node(x=(v1.x + v2.x + v3.x + v4.x) / 4, y=(v1.y + v2.y + v3.y + v4.y) / 4)
 
     g.remove_edge(v1, v2)
     g.remove_edge(v2, v3)
@@ -36,10 +34,10 @@ def transition(g: Graph, get_node):
     g.remove_edge(v3, q)
     g.remove_edge(v4, q)
 
-    q1 = Node(label="", x=(v1.x + v12.x) / 2, y=(v1.y + v41.y) / 2)
-    q2 = Node(label="", x=(v12.x + v2.x) / 2, y=(v2.y + v23.y) / 2)
-    q3 = Node(label="", x=(v3.x + v34.x) / 2, y=(v23.y + v3.y) / 2)
-    q4 = Node(label="", x=(v34.x + v4.x) / 2, y=(v4.y + v41.y) / 2)
+    q1 = NodeQ(x=(v1.x + v12.x) / 2, y=(v1.y + v41.y) / 2)
+    q2 = NodeQ(x=(v12.x + v2.x) / 2, y=(v2.y + v23.y) / 2)
+    q3 = NodeQ(x=(v3.x + v34.x) / 2, y=(v23.y + v3.y) / 2)
+    q4 = NodeQ(x=(v34.x + v4.x) / 2, y=(v4.y + v41.y) / 2)
 
     g.remove_node(q)
 

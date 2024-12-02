@@ -31,7 +31,7 @@ class NodeQ(NodeAbstart):
 
     def __init__(
         self,
-        label: str = "",
+        label: str = "Q",
         x: float = 0,
         y: float = 0,
         R=True,
@@ -47,7 +47,7 @@ class NodeQ(NodeAbstart):
 class Node(NodeAbstart):
 
     def __init__(
-        self, label: str = "", x: float = 0, y: float = 0, id: int = -1, h: bool = True
+        self, label: str = "v", x: float = 0, y: float = 0, id: int = -1, h: bool = True
     ):
         super().__init__(label, x, y, id)
         self.h = h

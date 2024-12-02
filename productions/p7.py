@@ -38,7 +38,7 @@ def create_left_graph():
     v2 = Node(id=2)
     v3 = Node(id=3)
     v4 = Node(id=4)
-    q = NodeQ(id=5, label="Q", R=0)
+    q = NodeQ(id=5, R=0)
 
     nodes = [v1, v2, v3, v4, q]
     for node in nodes:
@@ -60,7 +60,7 @@ def create_start_graph():
     v2 = Node(label="2", x=10, y=0, h=False)
     v3 = Node(label="3", x=10, y=10, h=False)
     v4 = Node(label="4", x=0, y=10, h=False)
-    q = NodeQ(label="Q", x=5, y=5, R=0)
+    q = NodeQ(x=5, y=5, R=0)
 
     nodes = [v1, v2, v3, v4, q]
     for node in nodes:

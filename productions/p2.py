@@ -20,13 +20,11 @@ def transition(g: Graph, get_node):
     v5 = get_node(5)
     q = get_node(6)
 
-    v12 = Node(label="v", x=(v1.x + v2.x) / 2, y=(v1.y + v2.y) / 2)
-    v34 = Node(label="v", x=(v3.x + v4.x) / 2, y=(v3.y + v4.y) / 2)
-    v41 = Node(label="v", x=(v4.x + v1.x) / 2, y=(v4.y + v1.y) / 2)
+    v12 = Node(x=(v1.x + v2.x) / 2, y=(v1.y + v2.y) / 2)
+    v34 = Node(x=(v3.x + v4.x) / 2, y=(v3.y + v4.y) / 2)
+    v41 = Node(x=(v4.x + v1.x) / 2, y=(v4.y + v1.y) / 2)
 
-    v_center = Node(
-        label="v", x=(v1.x + v2.x + v3.x + v4.x) / 4, y=(v1.y + v2.y + v3.y + v4.y) / 4
-    )
+    v_center = Node(x=(v1.x + v2.x + v3.x + v4.x) / 4, y=(v1.y + v2.y + v3.y + v4.y) / 4)
 
     e12B = g.get_edge_b_value(v1, v2)
     e25B = g.get_edge_b_value(v2, v5)
@@ -41,10 +39,10 @@ def transition(g: Graph, get_node):
     g.remove_edge(v3, q)
     g.remove_edge(v4, q)
 
-    q1 = Node(label="Q", x=(v1.x + v12.x) / 2, y=(v1.y + v41.y) / 2)
-    q2 = Node(label="Q", x=(v12.x + v2.x) / 2, y=(v2.y + v5.y) / 2)
-    q3 = Node(label="Q", x=(v3.x + v34.x) / 2, y=(v5.y + v3.y) / 2)
-    q4 = Node(label="Q", x=(v34.x + v4.x) / 2, y=(v4.y + v41.y) / 2)
+    q1 = NodeQ(x=(v1.x + v12.x) / 2, y=(v1.y + v41.y) / 2)
+    q2 = NodeQ(x=(v12.x + v2.x) / 2, y=(v2.y + v5.y) / 2)
+    q3 = NodeQ(x=(v3.x + v34.x) / 2, y=(v5.y + v3.y) / 2)
+    q4 = NodeQ(x=(v34.x + v4.x) / 2, y=(v4.y + v41.y) / 2)
 
     g.remove_node(q)
 
@@ -129,7 +127,7 @@ def create_start_graph():
     v3 = Node(label="3", x=10, y=10, h=False)
     v4 = Node(label="4", x=0, y=10, h=False)
     v5 = Node(label="5", x=10, y=5, h=True)
-    q = NodeQ(label="Q", x=5, y=5, R=True)
+    q = NodeQ(x=5, y=5, R=True)
 
     nodes = [v1, v2, v3, v4, v5, q]
 

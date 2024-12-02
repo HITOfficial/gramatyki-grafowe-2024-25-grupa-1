@@ -40,42 +40,42 @@ def transition(g: Graph, get_node):
 
     # create new nodes
     x, y = center_coords([v1, v2, v3, v4, v5])
-    v_center = Node(label="v", x=x, y=y, h=False)
+    v_center = Node(x=x, y=y, h=False)
 
     v12 = v6
 
     x, y = center_coords([v2, v5])
-    v25 = Node(label="v", x=x, y=y, h=False)
+    v25 = Node(x=x, y=y, h=False)
 
     x, y = center_coords([v5, v3])
-    v53 = Node(label="v", x=x, y=y, h=False)
+    v53 = Node(x=x, y=y, h=False)
 
     x, y = center_coords([v3, v4])
-    v34 = Node(label="v", x=x, y=y, h=False)
+    v34 = Node(x=x, y=y, h=False)
 
     x, y = center_coords([v4, v1])
-    v41 = Node(label="v", x=x, y=y, h=False)
+    v41 = Node(x=x, y=y, h=False)
 
     # create new breach nodes
     q1_vertices = [v1, v12, v_center, v41]
     x, y = center_coords(q1_vertices)
-    q1 = Node(label="Q", x=x, y=y, h=False)
+    q1 = Node(x=x, y=y, h=False)
 
     q2_vertices = [v2, v25, v_center, v12]
     x, y = center_coords(q2_vertices)
-    q2 = Node(label="Q", x=x, y=y, h=False)
+    q2 = Node(x=x, y=y, h=False)
 
     q3_vertices = [v3, v34, v_center, v53]
     x, y = center_coords(q3_vertices)
-    q3 = NodeQ(label="Q", x=x, y=y, R=False)
+    q3 = NodeQ(x=x, y=y, R=False)
 
     q4_vertices = [v4, v41, v_center, v34]
     x, y = center_coords(q4_vertices)
-    q4 = NodeQ(label="Q", x=x, y=y, R=False)
+    q4 = NodeQ(x=x, y=y, R=False)
 
     q5_vertices = [v5, v53, v_center, v25]
     x, y = center_coords(q5_vertices)
-    q5 = NodeQ(label="Q", x=x, y=y, R=False)
+    q5 = NodeQ(x=x, y=y, R=False)
 
     g.add_node(v12)
     g.add_node(v25)

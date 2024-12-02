@@ -2,7 +2,7 @@ from GramatykiGrafowe import Graph, Node, NodeQ, Production
 
 
 def split_edge(g: Graph, v1:Node, v2: Node):
-    v3 = Node(label="v", x=(v1.x + v2.x) / 2, y=(v1.y + v2.y) / 2)
+    v3 = Node(x=(v1.x + v2.x) / 2, y=(v1.y + v2.y) / 2)
     g.add_node(v3)
     g.remove_edge(v1, v2)
     g.add_edge(v1, v3)
@@ -62,7 +62,7 @@ def transition(g: Graph, get_node):
         q_x = q_x / 4
         q_y = q_y / 4
 
-        q_node = NodeQ(label="Q", x=q_x, y=q_y, R=False)
+        q_node = NodeQ(x=q_x, y=q_y, R=False)
         q_nodes.append(q_node)
         g.add_node(q_node)
         for node in part:
