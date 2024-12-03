@@ -1,12 +1,13 @@
-from GramatykiGrafowe import Graph, Node, NodeQ, Production
+from src.GramatykiGrafowe import Graph, Node, NodeQ, Production
 
 
-def split_edge(g: Graph, v1:Node, v2: Node):
-    v3 = Node(x=(v1.x + v2.x) / 2, y=(v1.y + v2.y) / 2)
+def split_edge(g: Graph, v1: Node, v2: Node):
+    B = g.underlying.get_edge_data(v1, v2)['B']
+    v3 = Node(label="v", x=(v1.x + v2.x) / 2, y=(v1.y + v2.y) / 2, h=not B)
     g.add_node(v3)
     g.remove_edge(v1, v2)
-    g.add_edge(v1, v3)
-    g.add_edge(v3, v2)
+    g.add_edge(v1, v3, B=B)
+    g.add_edge(v3, v2, B=B)
 
     return g, v3
 
@@ -20,7 +21,14 @@ def predicate(get_node):
     v6 = get_node(6)
     q = get_node(7)
 
-    return q.R == 1 and v1.h == v2.h == v4.h == v5.h == 0 and v3.h == v6.h == 1
+    v_nodes = [v1, v2, v3, v4, v5, v6]
+    for v_node in v_nodes:
+        if type(v_node) != Node:
+            return False
+    if type(q) != NodeQ:
+        return False
+
+    return q.R == 1 and not v1.h and not v2.h and not v4.h and not v5.h and v3.h == v6.h == 1
 
 
 def transition(g: Graph, get_node):
@@ -36,9 +44,9 @@ def transition(g: Graph, get_node):
     for i in [0, 1, 3, 4]:
         g.remove_edge(v_nodes[i], q)
 
-    q.label = "v"
-    q.h = False
-    q.R = False
+    g.remove_node(q)
+    q = Node("v", q.x, q.y, h=False)
+    g.add_node(q)
 
     g.add_edge(q, v7)
     g.add_edge(q, v8)
@@ -62,7 +70,7 @@ def transition(g: Graph, get_node):
         q_x = q_x / 4
         q_y = q_y / 4
 
-        q_node = NodeQ(x=q_x, y=q_y, R=False)
+        q_node = NodeQ(label="Q", x=q_x, y=q_y, R=False)
         q_nodes.append(q_node)
         g.add_node(q_node)
         for node in part:
@@ -73,76 +81,48 @@ def transition(g: Graph, get_node):
 
 def create_left_graph():
     graph = Graph()
-    
-    v1 = Node(id = 1)
-    v2 = Node(id = 2)
-    v3 = Node(id = 3)
-    v4 = Node(id = 4)
-    v5 = Node(id = 5)
-    v6 = Node(id = 6)
-    q = NodeQ(id = 7)
-
-    nodes = [v1, v2, v3, v4, v5, v6, q]
+    nodes = [Node(id=i) for i in range(1, 8)]
 
     for node in nodes:
         graph.add_node(node)
 
-    edges = [
-        (v1, v2),
-        (v2, v5),
-        (v5, v3),
-        (v3, v4),
-        (v4, v6),
-        (v6, v1),
-        (q, v1),
-        (q, v2),
-        (q, v3),
-        (q, v4)
-    ]
-
-    for node1, node2 in edges:
-        graph.add_edge(node1, node2)
+    for i in range(5):
+        graph.add_edge(nodes[i], nodes[i + 1])
+        if (i + 1) % 3 != 0:
+            graph.add_edge(nodes[i], nodes[-1])
+    graph.add_edge(nodes[5], nodes[0])
 
     return graph
 
 
 def create_start_graph():
     graph = Graph()
-    
-    v1 = Node(x = 0, y = 0)
-    v2 = Node(x = 10, y = 0)
-    v3 = Node(x = 10, y = 10)
-    v4 = Node(x = 0, y = 10)
-    v5 = Node(x = 10, y = 5)
-    v6 = Node(x = 0, y = 5)
-    q = NodeQ(x = 5, y = 5)
 
-    nodes = [v1, v2, v3, v4, v5, v6, q]
+    v1 = Node(label="1", x=0, y=0, h=False)
+    v2 = Node(label="2", x=10, y=0, h=False)
+    v3 = Node(label="3", x=10, y=10, h=False)
+    v4 = Node(label="4", x=0, y=10, h=False)
+
+    v23 = Node(label="5", x=10, y=5, h=True)
+    v41 = Node(label="6", x=0, y=5, h=True)
+    q = NodeQ(label="Q", x=5, y=5, R=True)
+
+    nodes = [v1, v2, v23, v3, v4, v41, v1, q]
 
     for node in nodes:
         graph.add_node(node)
 
-    edges = [
-        (v1, v2),
-        (v2, v5),
-        (v5, v3),
-        (v3, v4),
-        (v4, v6),
-        (v6, v1),
-        (q, v1),
-        (q, v2),
-        (q, v3),
-        (q, v4)
-    ]
-
-    for node1, node2 in edges:
-        graph.add_edge(node1, node2, True)
+    for i in range(6):
+        graph.add_edge(nodes[i], nodes[i + 1], B=True)
+        if i % 3 != 2:
+            graph.add_edge(nodes[i], nodes[-1])
 
     return graph
 
 
 if __name__ == "__main__":
     graph = create_start_graph()
+    graph.show()
     left_graph = create_left_graph()
     production = Production(left_graph, transition, predicate)
     applied = graph.apply_production(production)
