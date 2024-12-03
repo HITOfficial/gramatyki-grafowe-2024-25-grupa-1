@@ -1,6 +1,8 @@
-from productions.p1 import create_left_graph, create_start_graph, predicate, transition
-from GramatykiGrafowe import Production, Graph, Node
 import networkx as nx
+
+from GramatykiGrafowe import Graph, Node, Production
+from productions.p1 import (create_left_graph, create_start_graph, predicate,
+                            transition)
 
 
 def test_p1_production():
@@ -29,8 +31,13 @@ def test_p1_stats():
     assert nx.number_of_nodes(graph.underlying) == 13, \
         f"Expected 13 nodes, found {len(graph.nodes)}."
 
-    assert "Q" not in nodes_labels, \
-        "Node Q should have been removed."
+    expected_count = [('Q', 4), ('v', 5)]
+
+    for label, expected_count in expected_count:
+        count = nodes_labels.count(label)
+
+        assert count == expected_count, \
+            f"Expected {expected_count} {label} nodes, but found {count}."
 
 
 def test_p1_positions():
@@ -60,9 +67,9 @@ def test_p1_connections():
     graph.apply_production(production)
 
     edges_to_check = [
-        ("1", ""), ("2", ""), ("3", ""), ("4", ""),
+        ("1", "Q"), ("2", "Q"), ("3", "Q"), ("4", "Q"),
         ("1", "v"), ("2", "v"), ("3", "v"), ("4", "v"),
-        ("v", "v"), ("v", "")
+        ("v", "v"), ("v", "Q")
     ]
 
     for u_label, v_label in edges_to_check:
@@ -83,7 +90,7 @@ def test_p1_disconnections():
         ("1", "2"), ("1", "3"), ("1", "4"),
         ("2", "3"), ("2", "4"),
         ("3", "4"),
-        ("", "")
+        ("Q", "Q")
     ]
 
     for u_label, v_label in edges_to_check:
@@ -91,7 +98,7 @@ def test_p1_disconnections():
             (u.label == u_label and v.label == v_label) or
             (u.label == v_label and v.label == u_label)
             for u, v in graph.underlying.edges), \
-            f"Expected edge between {u_label} and {v_label} not found."
+            f"Unexpected edge between {u_label} and {v_label} found."
 
 
 def test_p1_isomorphism():
@@ -136,3 +143,27 @@ def test_p1_isomorphism():
 
     assert matcher.subgraph_is_isomorphic(), \
         "Graphs are not isomorphic after production."
+
+
+def test_p1_node_attributes():
+    graph = create_start_graph()
+    left_graph = create_left_graph()
+    production = Production(left_graph, transition, predicate)
+    graph.apply_production(production)
+
+    nodes_to_check = [
+        ('Q', 'R', True), ('v', 'h', True),
+        ('1', 'h', False), ('2', 'h', False),
+        ('3', 'h', False), ('4', 'h', False)
+    ]
+
+    for label, attr, val in nodes_to_check:
+        matching_nodes = [
+            node for node in graph.underlying.nodes if node.label == label]
+
+        for node in matching_nodes:
+            assert attr in vars(node), \
+                f"Node with label '{label}' does not have the attribute '{attr}'."
+            assert vars(node)[attr] == val, \
+                f"Node with label '{label}' has attribute " + \
+                f"'{attr}' = {vars(node)[attr]}, expected {val}."

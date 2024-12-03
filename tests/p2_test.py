@@ -1,6 +1,8 @@
-from productions.p2 import create_left_graph, create_start_graph, predicate, transition
-from GramatykiGrafowe import Production, Graph, Node
 import networkx as nx
+
+from GramatykiGrafowe import Graph, Node, Production
+from productions.p2 import (create_left_graph, create_start_graph, predicate,
+                            transition)
 
 
 def test_p2_production():
@@ -29,11 +31,13 @@ def test_p2_stats():
     assert nx.number_of_nodes(graph.underlying) == 13, \
         f"Expected 13 nodes, found {len(graph.nodes)}."
 
-    assert nodes_labels.count("Q") == 4, \
-        "Expected 4 Q nodes, but found fewer or more."
+    expected_count = [('Q', 4), ('v', 4)]
 
-    assert "Q" not in [node.label for node in graph.nodes if node.label != "Q"], \
-        "Old Q node was not removed."
+    for label, expected_count in expected_count:
+        count = nodes_labels.count(label)
+
+        assert count == expected_count, \
+            f"Expected {expected_count} {label} nodes, but found {count}."
 
 
 def test_p2_positions():
@@ -72,7 +76,7 @@ def test_p2_connections():
             (u.label == u_label and v.label == v_label) or
             (u.label == v_label and v.label == u_label)
             for u, v in graph.underlying.edges), \
-            f"Expected edge between {u_label} and {v_label} not found."
+            f"Expected edge between '{u_label}' and {v_label} not found."
 
 
 def test_p2_disconnections():
@@ -93,7 +97,7 @@ def test_p2_disconnections():
             (u.label == u_label and v.label == v_label) or
             (u.label == v_label and v.label == u_label)
             for u, v in graph.underlying.edges), \
-            f"Expected edge between {u_label} and {v_label} not found."
+            f"Unexpected edge between {u_label} and {v_label} found."
 
 
 def test_p2_isomorphism():
@@ -138,3 +142,58 @@ def test_p2_isomorphism():
 
     assert matcher.subgraph_is_isomorphic(), \
         "Graphs are not isomorphic after production."
+
+
+def test_p2_node_attributes():
+    graph = create_start_graph()
+    left_graph = create_left_graph()
+    production = Production(left_graph, transition, predicate)
+    graph.apply_production(production)
+
+    nodes_to_check = [
+        ('Q', 'R', True), ('v', 'h', True),
+        ('1', 'h', False), ('2', 'h', False),
+        ('3', 'h', False), ('4', 'h', False)
+    ]
+
+    for label, attr, val in nodes_to_check:
+        matching_nodes = [
+            node for node in graph.underlying.nodes if node.label == label]
+
+        for node in matching_nodes:
+            assert attr in vars(node), \
+                f"Node with label '{label}' does not have the attribute '{attr}'."
+            assert vars(node)[attr] == val, \
+                f"Node with label '{label}' has attribute" + \
+                f"'{attr}' = {vars(node)[attr]}, expected {val}."
+
+
+def test_p2_edge_attributes():
+    graph = create_start_graph()
+    left_graph = create_left_graph()
+    production = Production(left_graph, transition, predicate)
+    graph.apply_production(production)
+
+    edges_to_check = [
+        ("1", "v", "B", True), 
+        ("2", "v", "B", True), 
+        ("3", "v", "B", True),
+        ("4", "v", "B", True),
+        ("v", "v", "B", False)
+    ]
+
+    for u_label, v_label, attr, val in edges_to_check:
+        matching_edges = [
+            (u, v) for u, v in graph.underlying.edges
+            if (u.label == u_label and v.label == v_label) or
+               (u.label == v_label and v.label == u_label)
+        ]
+
+        assert matching_edges, f"Edge between '{u_label}' and '{v_label}' not found."
+
+        for u, v in matching_edges:
+            assert attr in graph.underlying[u][v], \
+                f"Edge between '{u_label}' and '{v_label}' does not have the attribute '{attr}'."
+            assert graph.underlying[u][v][attr] == val, \
+                f"Edge between '{u_label}' and '{v_label}' has attribute " + \
+                f"'{attr}' = {graph.underlying[u][v][attr]}, expected {val}."
