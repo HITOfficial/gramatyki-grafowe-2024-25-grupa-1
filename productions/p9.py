@@ -23,6 +23,18 @@ def transition(g: Graph, get_node):
 
     edge_vertices = [v1, v2, v5, v3, v4]
 
+    # store old edge values
+    edge_values = []
+
+    for i in range(len(edge_vertices)):
+        val = g.get_edge_b_value(
+            edge_vertices[i % len(edge_vertices)],
+            edge_vertices[(i + 1) % len(edge_vertices)],
+        )
+
+        edge_values.append(val)
+
+
     # remove old edges
     for i in range(len(edge_vertices)):
         g.remove_edge(
@@ -40,19 +52,19 @@ def transition(g: Graph, get_node):
     v_center = Node(x=x, y=y, h=False)
 
     x, y = center_coords([v1, v2])
-    v12 = Node(x=x, y=y, h=False)  # h = not edge_1_2.B
+    v12 = Node(x=x, y=y, h=edge_values[0])
 
     x, y = center_coords([v2, v5])
-    v25 = Node(x=x, y=y, h=False)
+    v25 = Node(x=x, y=y, h=edge_values[1])
 
     x, y = center_coords([v5, v3])
-    v53 = Node(x=x, y=y, h=False)
+    v53 = Node(x=x, y=y, h=edge_values[2])
 
     x, y = center_coords([v3, v4])
-    v34 = Node(x=x, y=y, h=False)
+    v34 = Node(x=x, y=y, h=edge_values[3])
 
     x, y = center_coords([v4, v1])
-    v41 = Node(x=x, y=y, h=False)
+    v41 = Node(x=x, y=y, h=edge_values[4])
 
     # create new breach nodes
     q1_vertices = [v1, v12, v_center, v41]
@@ -87,20 +99,17 @@ def transition(g: Graph, get_node):
     g.add_node(q4)
     g.add_node(q5)
 
-    # create new edges
-    # if edge_x_y.B will be implemented, then remove this part and apply edge_x_y.B correctly
-
     # outer edges
-    g.add_edge(v1, v12)
-    g.add_edge(v12, v2)
-    g.add_edge(v2, v25)
-    g.add_edge(v25, v5)
-    g.add_edge(v5, v53)
-    g.add_edge(v53, v3)
-    g.add_edge(v3, v34)
-    g.add_edge(v34, v4)
-    g.add_edge(v4, v41)
-    g.add_edge(v41, v1)
+    g.add_edge(v1, v12, edge_values[0])
+    g.add_edge(v12, v2, edge_values[0])
+    g.add_edge(v2, v25, edge_values[1])
+    g.add_edge(v25, v5, edge_values[1])
+    g.add_edge(v5, v53, edge_values[2])
+    g.add_edge(v53, v3, edge_values[2])
+    g.add_edge(v3, v34, edge_values[3])
+    g.add_edge(v34, v4, edge_values[3])
+    g.add_edge(v4, v41, edge_values[4])
+    g.add_edge(v41, v1, edge_values[4])
 
     # inner q1 edges
     g.add_edge(q1, v1)
@@ -133,11 +142,11 @@ def transition(g: Graph, get_node):
     g.add_edge(q5, v25)
 
     # inner center edges
-    g.add_edge(v_center, v12)
-    g.add_edge(v_center, v25)
-    g.add_edge(v_center, v53)
-    g.add_edge(v_center, v34)
-    g.add_edge(v_center, v41)
+    g.add_edge(v_center, v12, True)
+    g.add_edge(v_center, v25, True)
+    g.add_edge(v_center, v53, True)
+    g.add_edge(v_center, v34, True)
+    g.add_edge(v_center, v41, True)
 
 
 def create_left_graph():
@@ -148,7 +157,7 @@ def create_left_graph():
     v3 = Node(id=3)
     v4 = Node(id=4)
     v5 = Node(id=5)
-    p = Node(id=6)
+    p = NodeQ(id=6)
     edge_vertices = [v1, v2, v5, v3, v4]
 
     graph.add_node(v1)
