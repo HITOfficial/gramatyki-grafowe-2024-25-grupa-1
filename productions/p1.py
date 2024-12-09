@@ -1,4 +1,4 @@
-from GramatykiGrafowe import Graph, Node
+from GramatykiGrafowe import Graph, Node, NodeQ, Production
 
 
 def predicate(get_node):
@@ -18,14 +18,12 @@ def transition(g: Graph, get_node):
     v4 = get_node(4)
     q = get_node(5)
 
-    v12 = Node(label="v", x=(v1.x + v2.x) / 2, y=(v1.y + v2.y) / 2)
-    v23 = Node(label="v", x=(v2.x + v3.x) / 2, y=(v2.y + v3.y) / 2)
-    v34 = Node(label="v", x=(v3.x + v4.x) / 2, y=(v3.y + v4.y) / 2)
-    v41 = Node(label="v", x=(v4.x + v1.x) / 2, y=(v4.y + v1.y) / 2)
+    v12 = Node(x=(v1.x + v2.x) / 2, y=(v1.y + v2.y) / 2)
+    v23 = Node(x=(v2.x + v3.x) / 2, y=(v2.y + v3.y) / 2)
+    v34 = Node(x=(v3.x + v4.x) / 2, y=(v3.y + v4.y) / 2)
+    v41 = Node(x=(v4.x + v1.x) / 2, y=(v4.y + v1.y) / 2)
 
-    v_center = Node(
-        label="v", x=(v1.x + v2.x + v3.x + v4.x) / 4, y=(v1.y + v2.y + v3.y + v4.y) / 4
-    )
+    v_center = Node(x=(v1.x + v2.x + v3.x + v4.x) / 4, y=(v1.y + v2.y + v3.y + v4.y) / 4)
 
     g.remove_edge(v1, v2)
     g.remove_edge(v2, v3)
@@ -36,10 +34,10 @@ def transition(g: Graph, get_node):
     g.remove_edge(v3, q)
     g.remove_edge(v4, q)
 
-    q1 = Node(label="", x=(v1.x + v12.x) / 2, y=(v1.y + v41.y) / 2)
-    q2 = Node(label="", x=(v12.x + v2.x) / 2, y=(v2.y + v23.y) / 2)
-    q3 = Node(label="", x=(v3.x + v34.x) / 2, y=(v23.y + v3.y) / 2)
-    q4 = Node(label="", x=(v34.x + v4.x) / 2, y=(v4.y + v41.y) / 2)
+    q1 = NodeQ(x=(v1.x + v12.x) / 2, y=(v1.y + v41.y) / 2)
+    q2 = NodeQ(x=(v12.x + v2.x) / 2, y=(v2.y + v23.y) / 2)
+    q3 = NodeQ(x=(v3.x + v34.x) / 2, y=(v23.y + v3.y) / 2)
+    q4 = NodeQ(x=(v34.x + v4.x) / 2, y=(v4.y + v41.y) / 2)
 
     g.remove_node(q)
 
@@ -112,7 +110,7 @@ def create_start_graph():
     v2 = Node(label="2", x=10, y=0, h=False)
     v3 = Node(label="3", x=10, y=10, h=False)
     v4 = Node(label="4", x=0, y=10, h=False)
-    q = Node(label="Q", x=5, y=5, R=True)
+    q = NodeQ(label="Q", x=5, y=5, R=True)
 
     graph.add_node(v1)
     graph.add_node(v2)
@@ -132,7 +130,6 @@ if __name__ == "__main__":
 
     graph = create_start_graph()
     left_graph = create_left_graph()
-    applied = graph.apply_production(
-        left_graph, transition=transition, predicate=predicate
-    )
+    production = Production(left_graph, transition, predicate)
+    applied = graph.apply_production(production)
     graph.show()
