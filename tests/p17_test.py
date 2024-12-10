@@ -10,7 +10,7 @@ def create_test_graph():
     v13 = Node(label="13", x=2, y=3, h=False) 
     v14 = Node(label="14", x=3, y=1.5, h=False) 
     v15 = Node(label="15", x=4, y=0, h=False) 
-    v16 = Node(label="16", x=3, y=-1.5, h=False)
+    v16 = Node(label="16", x=3, y=-1.5, h=True)
     v17 = Node(label="17", x=2, y=-3, h=False)
     v18 = Node(label="18", x=1, y=-1.5, h=False)
     v19 = Node(label="19", x=2, y=0, h=False)
@@ -27,7 +27,7 @@ def create_test_graph():
     v22 = Node(label="22", x=4+2, y=1+3, h=False) 
     v23 = Node(label="23", x=4+3, y=1+1.5, h=False) 
     v24 = Node(label="24", x=4+4, y=1+0, h=False) 
-    v25 = Node(label="25", x=3+3, y=2-1.5, h=False)
+    v25 = Node(label="25", x=3+3, y=2-1.5, h=True)
     v26 = Node(label="26", x=3+2, y=2+0, h=False)
     q21x, q21y = center_coords([v13,v21,v26,v14])
     q21 = NodeQ(label="Q", x=q21x, y=q21y, R=False)
@@ -45,7 +45,7 @@ def create_test_graph():
     nodes3 = [v31, v32, q31]
     v41 = Node(label="41", x=6, y=-5, h=False)
     p41x, p41y = center_coords([v17,v15,v24,v32,v41])
-    p41 = NodeQ(label="P", x=p41x, y=p41y, R=False)
+    p41 = NodeQ(label="P", x=p41x, y=p41y, R=True)
     nodes4 = [v41, p41]
     edges1 = [
         (v11, v12, None),
