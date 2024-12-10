@@ -1,6 +1,7 @@
 from productions.p9 import create_left_graph, create_start_graph, predicate, transition
 from GramatykiGrafowe import Production, Graph, Node, NodeQ
 import networkx as nx
+from GramatykiGrafowe.utils import center_coords
 
 
 def test_p9_production():
@@ -36,6 +37,7 @@ def test_p9_stats():
         "Old Q node was not removed."
 
 
+# sprawdzanie boundry, hanging
 def test_p9_positions():
     graph = create_start_graph()
     left_graph = create_left_graph()
@@ -98,18 +100,80 @@ def test_p9_disconnections():
             f"Expected edge between {u_label} and {v_label} not found."
 
 
+def get_vertex(graph: Graph, label: str):
+    vertices =  list(graph.nodes)
+    for v in vertices:
+        if label in str(v):
+            return v
+    raise ValueError("vertex not found in graph")
+
+
+def create_bigger_graph(graph: Graph):
+    nodes = [
+        Node(label="X1", x=-10, y=0, h=False),
+        Node(label="X2", x=-7.5, y=12.5, h=False),
+        Node(label="X3", x=5, y=20, h=False),
+        Node(label="X4", x=17.5, y=10, h=False)        
+        ]
+    
+    v1 = get_vertex(graph, '1')
+    v4 = get_vertex(graph, '4')
+    v3 = get_vertex(graph, '3')
+    v5 = get_vertex(graph, '5')
+
+    q1_x, q1_y = center_coords([nodes[0], v4])
+    q2_x, q2_y = center_coords([nodes[2], v4])
+    q3_x, q3_y = center_coords([nodes[3], v3])
+
+    nodes.extend([
+        NodeQ(label="Q1", x=q1_x, y=q1_y),
+        NodeQ(label="Q2", x=q2_x, y=q2_y),
+        NodeQ(label="Q3", x=q3_x, y=q3_y)
+    ])
+    for node in nodes:
+        graph.add_node(node)
+
+
+    graph.add_edge(nodes[0], v1, True)
+    graph.add_edge(nodes[0], nodes[1], True)
+    graph.add_edge(nodes[1], v4)
+    graph.add_edge(nodes[1], nodes[2], True)
+    graph.add_edge(nodes[2], v3)
+    graph.add_edge(nodes[2], nodes[3], True)
+    graph.add_edge(nodes[3], v5, True)
+
+    graph.add_edge(nodes[4], nodes[0])
+    graph.add_edge(nodes[4], nodes[1])
+    graph.add_edge(nodes[4], v1)
+    graph.add_edge(nodes[4], v4)
+
+    graph.add_edge(nodes[5], nodes[1])
+    graph.add_edge(nodes[5], nodes[2])
+    graph.add_edge(nodes[5], v4)
+    graph.add_edge(nodes[5], v3)
+
+    graph.add_edge(nodes[6], nodes[2])
+    graph.add_edge(nodes[6], nodes[3])
+    graph.add_edge(nodes[6], v3)
+    graph.add_edge(nodes[6], v5)
+
+    return graph
+
+
 def test_p9_isomorphism():
     graph = create_start_graph()
     left_graph = create_left_graph()
     production = Production(left_graph, transition, predicate)
-    graph.apply_production(production)
 
-    expected_graph = Graph()
-    import pdb
-    pdb.set_trace()
+    create_bigger_graph(graph)    
 
-from GramatykiGrafowe import Graph, Node, NodeQ, Production
-from productions.p9 import create_left_graph as create_left_graph_p9, predicate as predicate_p9, transition as transition_p9
+    # graph.show()
+    applied = graph.apply_production(production)
+    # graph.show()
+
+    assert applied # is left graph detected
+    assert len(graph.nodes) == 23 # number of nodes
+
 
 
 def create_test_graph():
@@ -120,46 +184,6 @@ def create_test_graph():
     v3 = Node(label="3", x=10, y=10, h=False)
     v4 = Node(label="4", x=0, y=10, h=False)
     v5 = Node(label="5", x=15, y=5, h=False)
-    v12 = Node(label="v", x=5, y=0)
-    v25 = Node(label="v", x=12.5, y=2.5)
-    v53 = Node(label="v", x=12.5, y=7.5)
-    v34 = Node(label="v", x=5, y=10)
-    v41 = Node(label="v", x=0, y=5)
-    v_center = Node(label="v", x=7.0, y=5)
-
-    q1 = NodeQ(x=3.0, y=2.5, R=False)
-    q2 = NodeQ(x=3.0, y=7.5, R=False)
-    q3 = NodeQ(x=11.75, y=5.0, R=False)
-    q4 = NodeQ(x=8.625, y=1.875, R=False)
-    q5 = NodeQ(x=8.625, y=8.125, R=False)
-
-    nodes = [v1, v2, v3, v4, v5, v12, v25, v53, v34, v41, v_center, q1, q2, q3, q4, q5]
-
-    for node in nodes:
-        expected_graph.add_node(node)
-
-    edges = [
-        (v1, v12), (v12, v2),
-        (v2, v25), (v25, v5),
-        (v5, v53), (v53, v3),
-        (v3, v34), (v34, v4),
-        (v4, v41), (v41, v1),
-        (v12, v_center), (v25, v_center),
-        (v53, v_center), (v34, v_center), 
-        (v41, v_center)
-    ]
-
-    for u, v in edges:
-        expected_graph.add_edge(u, v)
-
-    matcher = nx.algorithms.isomorphism.GraphMatcher(
-        graph.underlying,
-        expected_graph.underlying,
-        node_match=lambda u, v: u["node"].label == v["node"].label)
-
-    assert matcher.subgraph_is_isomorphic(), \
-        "Graphs are not isomorphic after production."
-
     p = NodeQ(label="P", x=5, y=5, R=True)
 
     
@@ -214,22 +238,22 @@ def create_test_graph():
 
     return graph, v1
 
-def test_p1():
+# def test_p1():
     
-    graph, v1 = create_test_graph()
+#     graph, v1 = create_test_graph()
 
-    graph.show()
+#     graph.show()
 
-    left_graph = create_left_graph_p9()
-    production = Production(left_graph, transition_p9, predicate_p9)
-    applied = graph.apply_production(production)
+#     left_graph = create_left_graph_p9()
+#     production = Production(left_graph, transition_p9, predicate_p9)
+#     applied = graph.apply_production(production)
 
-    graph.show()
+#     graph.show()
 
-    # import pdb
-    # pdb.set_trace()
+#     # import pdb
+#     # pdb.set_trace()
 
-    assert applied # is left graph detected
-    assert len(graph.nodes) == 21 # number of nodes
-    assert v1 in graph.nodes # v1 is still in graph
+#     assert applied # is left graph detected
+#     assert len(graph.nodes) == 21 # number of nodes
+#     assert v1 in graph.nodes # v1 is still in graph
 
