@@ -94,7 +94,7 @@ def create_left_graph():
     v3 = Node(id=3)
     v4 = Node(id=4)
     v5 = Node(id=5)
-    q = Node(id=6)
+    q = NodeQ(id=6)
 
     nodes = [v1, v2, v3, v4, v5, q]
 
