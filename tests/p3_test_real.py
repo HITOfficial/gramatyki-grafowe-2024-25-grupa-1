@@ -1,4 +1,4 @@
-from src.GramatykiGrafowe import Graph, Node, NodeQ, Production
+from GramatykiGrafowe import Graph, Node, NodeQ, Production
 
 
 def predicate(get_node):
@@ -88,6 +88,9 @@ def transition(g: Graph, get_node):
 
     for node1, node2 in edges:
         g.add_edge(node1, node2)
+
+    for node in [q1, q2, q3, q4, v34, v41, v_center]:
+        node.h = False
 
 
 def create_left_graph():
