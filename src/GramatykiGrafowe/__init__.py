@@ -101,8 +101,12 @@ class Graph:
         return node in self.underlying
 
     def apply_production(self, production: Production):
+
+        def node_match(n1, n2):
+            return type(n1['node']) == type(n2['node'])
+
         matcher = nx.algorithms.isomorphism.GraphMatcher(
-            self.underlying, production.left_graph.underlying
+            self.underlying, production.left_graph.underlying, node_match=node_match
         )
         subgraph_isomorphic = matcher.subgraph_is_isomorphic()
 
