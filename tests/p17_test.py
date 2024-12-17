@@ -1,5 +1,6 @@
 from GramatykiGrafowe import Graph, Node, NodeQ, Production
 from GramatykiGrafowe.utils import center_coords
+from p17 import create_left_graph, predicate, transition
 
 
 def create_test_graph():
@@ -19,7 +20,7 @@ def create_test_graph():
     q12x, q12y = center_coords([v12,v13,v14,v19])
     q12 = NodeQ(label="Q", x=q12x, y=q12y, R=False)
     q13x, q13y = center_coords([v14,v15,v16,v19])
-    q13 = NodeQ(label="Q", x=q13x, y=q13y, R=False)
+    q13 = NodeQ(label="Q", x=q13x, y=q13y, R=True)
     q14x, q14y = center_coords([v16,v17,v18,v19])
     q14 = NodeQ(label="Q", x=q14x, y=q14y, R=False)
     nodes1 = [v11, v12, v13, v14, v15, v16, v17, v18, v19, q11, q12, q13, q14]
@@ -45,84 +46,84 @@ def create_test_graph():
     nodes3 = [v31, v32, q31]
     v41 = Node(label="41", x=6, y=-5, h=False)
     p41x, p41y = center_coords([v17,v15,v24,v32,v41])
-    p41 = NodeQ(label="P", x=p41x, y=p41y, R=True)
+    p41 = NodeQ(label="P", x=p41x, y=p41y, R=False)
     nodes4 = [v41, p41]
     edges1 = [
-        (v11, v12, None),
-        (v12, v13, None),
-        (v13, v14, None),
-        (v14, v15, None),
-        (v15, v16, None),
-        (v16, v17, None),
-        (v17, v18, None),
-        (v18, v11, None),
-        (v12, v19, None),
-        (v14, v19, None),
-        (v16, v19, None),
-        (v18, v19, None),
-        (v11, q11, None),
-        (v12, q11, None),
-        (v18, q11, None),
-        (v19, q11, None),
-        (v12, q12, None),
-        (v13, q12, None),
-        (v14, q12, None),
-        (v19, q12, None),
-        (v14, q13, None),
-        (v15, q13, None),
-        (v16, q13, None),
-        (v19, q13, None),
-        (v16, q14, None),
-        (v17, q14, None),
-        (v18, q14, None),
-        (v19, q14, None),
+        (v11, v12, True),
+        (v12, v13, True),
+        (v13, v14, False),
+        (v14, v15, False),
+        (v15, v16, False),
+        (v16, v17, False),
+        (v17, v18, True),
+        (v18, v11, True),
+        (v12, v19, False),
+        (v14, v19, False),
+        (v16, v19, False),
+        (v18, v19, False),
+        (v11, q11, False),
+        (v12, q11, False),
+        (v18, q11, False),
+        (v19, q11, False),
+        (v12, q12, False),
+        (v13, q12, False),
+        (v14, q12, False),
+        (v19, q12, False),
+        (v14, q13, False),
+        (v15, q13, False),
+        (v16, q13, False),
+        (v19, q13, False),
+        (v16, q14, False),
+        (v17, q14, False),
+        (v18, q14, False),
+        (v19, q14, False),
     ]
     edges2 = [
-        (v13, v21, None),
-        (v21, v22, None),
-        (v22, v23, None),
-        (v23, v24, None),
-        (v24, v25, None),
-        (v25, v26, None),
-        (v25, v15, None),
-        (v21, v26, None),
-        (v23, v26, None),
-        (v25, v26, None),
-        (v14, v26, None),
-        (v13, q21, None),
-        (v21, q21, None),
-        (v26, q21, None),
-        (v14, q21, None),
-        (v21, q22, None),
-        (v22, q22, None),
-        (v23, q22, None),
-        (v26, q22, None),
-        (v26, q23, None),
-        (v23, q23, None),
-        (v24, q23, None),
-        (v25, q23, None),
-        (v14, q24, None),
-        (v26, q24, None),
-        (v25, q24, None),
-        (v15, q24, None),
+        (v13, v21, True),
+        (v21, v22, True),
+        (v22, v23, False),
+        (v23, v24, False),
+        (v24, v25, False),
+        (v25, v26, False),
+        (v25, v15, False),
+        (v21, v26, False),
+        (v23, v26, False),
+        (v25, v26, False),
+        (v14, v26, False),
+        (v13, q21, False),
+        (v21, q21, False),
+        (v26, q21, False),
+        (v14, q21, False),
+        (v21, q22, False),
+        (v22, q22, False),
+        (v23, q22, False),
+        (v26, q22, False),
+        (v26, q23, False),
+        (v23, q23, False),
+        (v24, q23, False),
+        (v25, q23, False),
+        (v14, q24, False),
+        (v26, q24, False),
+        (v25, q24, False),
+        (v15, q24, False),
     ]
     edges3 = [
-        (v22, v31, None),
-        (v24, v32, None),
-        (v31, v32, None),
-        (v22, q31, None),
-        (v31, q31, None),
-        (v32, q31, None),
-        (v24, q31, None),
+        (v22, v31, True),
+        (v24, v32, False),
+        (v31, v32, True),
+        (v22, q31, False),
+        (v31, q31, False),
+        (v32, q31, False),
+        (v24, q31, False),
     ]
     edges4 = [
-        (v17, v41, None),
-        (v32, v41, None),
-        (v41, p41, None),
-        (v17, p41, None),
-        (v15, p41, None),
-        (v24, p41, None),
-        (v32, p41, None),
+        (v17, v41, True),
+        (v32, v41, True),
+        (v41, p41, False),
+        (v17, p41, False),
+        (v15, p41, False),
+        (v24, p41, False),
+        (v32, p41, False),
     ]
     
     for node in nodes1 + nodes2 + nodes3 + nodes4:
@@ -135,5 +136,9 @@ def create_test_graph():
 
 if __name__ == "__main__":
     graph = create_test_graph()
+    graph.show()
+    left_graph = create_left_graph()
+    production = Production(left_graph, transition, predicate)
+    applied = graph.apply_production(production)
     graph.show()
 

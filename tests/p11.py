@@ -12,7 +12,7 @@ def predicate(get_node):
     v7 = get_node(7)
     q = get_node(8)
 
-    print(f"\nPredicate: {v1} {v2} {v3} {v4} {v5} {v6} {v7} {q}\n")
+    # print(f"\nPredicate: {v1} {v2} {v3} {v4} {v5} {v6} {v7} {q}\n")
 
     return not any([not q.R, v1.h, v2.h, v3.h, v4.h, v5.h, not v6.h, not v7.h])
 
@@ -27,7 +27,7 @@ def transition(g: Graph, get_node):
     v7 = get_node(7)
     p = get_node(8)
 
-    print(f"\nTransition: {v1} {v2} {v3} {v4} {v5} {v6} {v7} {p}\n")
+    # print(f"\nTransition: {v1} {v2} {v3} {v4} {v5} {v6} {v7} {p}\n")
 
     for node in [v1, v2, v3, v4, v5]:
         g.remove_edge(node, p)
@@ -145,20 +145,20 @@ def create_left_graph():
     v7 = Node(id=7)
     p = NodeQ(id=8)
     
-    print(f"\nGraph: {v1} {v2} {v3} {v4} {v5} {v6} {v7} {p}\n")
+    # print(f"\nGraph: {v1} {v2} {v3} {v4} {v5} {v6} {v7} {p}\n")
 
     nodes = [v1, v2, v3, v4, v5, v6, v7, p]
     for node in nodes:
         graph.add_node(node)
 
     edges = [
-        (v1, v6, True),
-        (v1, v7, True),
-        (v2, v6, True),
-        (v2, v5, True),
-        (v3, v5, True),
-        (v3, v4, True),
-        (v4, v7, True),
+        (v1, v6, False),
+        (v1, v7, False),
+        (v2, v6, False),
+        (v2, v5, False),
+        (v3, v5, False),
+        (v3, v4, False),
+        (v4, v7, False),
         (p, v1, None),
         (p, v2, None),
         (p, v3, None),
