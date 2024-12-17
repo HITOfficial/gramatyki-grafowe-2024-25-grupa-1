@@ -152,7 +152,7 @@ def test_p1_node_attributes():
     graph.apply_production(production)
 
     nodes_to_check = [
-        ('Q', 'R', True), ('v', 'h', True),
+        ('Q', 'R', True),
         ('1', 'h', False), ('2', 'h', False),
         ('3', 'h', False), ('4', 'h', False)
     ]
@@ -160,10 +160,37 @@ def test_p1_node_attributes():
     for label, attr, val in nodes_to_check:
         matching_nodes = [
             node for node in graph.underlying.nodes if node.label == label]
-
+        
         for node in matching_nodes:
             assert attr in vars(node), \
                 f"Node with label '{label}' does not have the attribute '{attr}'."
             assert vars(node)[attr] == val, \
                 f"Node with label '{label}' has attribute " + \
                 f"'{attr}' = {vars(node)[attr]}, expected {val}."
+
+def test_p1_v_node_attributes():
+    graph = create_start_graph()
+    left_graph = create_left_graph()
+    production = Production(left_graph, transition, predicate)
+    graph.apply_production(production)
+
+    label, attr = 'v', 'h'
+    nodes_where_h_is_true = 0
+    nodes_where_h_is_false = 0
+
+    matching_nodes = [
+        node for node in graph.underlying.nodes if node.label == label]
+
+    for node in matching_nodes:
+        assert attr in vars(node), \
+            f"Node with label '{label}' does not have the attribute '{attr}'."
+
+        if vars(node)[attr]:
+            nodes_where_h_is_true += 1
+        else:
+            nodes_where_h_is_false += 1
+
+    assert nodes_where_h_is_true == 4, \
+        f"Expected 4 '{label}' nodes with attribute '{attr}' equal {True}."
+    assert nodes_where_h_is_false == 1, \
+        f"Expected 1 '{label}' nodes with attribute '{attr}' equal {False}."
