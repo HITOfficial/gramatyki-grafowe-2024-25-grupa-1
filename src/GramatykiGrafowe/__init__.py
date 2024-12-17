@@ -43,6 +43,12 @@ class NodeQ(NodeAbstart):
     def __repr__(self) -> str:
         return f"{self.label}(R={(int)(self.R)})"
 
+    @staticmethod
+    def from_nodes(v1: Node, v2: Node, v3: Node, v4: Node, R: bool = None):
+        x = (v1.x + v2.x + v3.x + v4.x) / 4
+        y = (v1.y + v2.y + v3.y + v4.y) / 4
+        return NodeQ(x = x, y = y, R = R)
+
 
 class Node(NodeAbstart):
 
