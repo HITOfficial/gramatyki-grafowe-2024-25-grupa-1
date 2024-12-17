@@ -4,9 +4,9 @@ from productions.p1 import create_left_graph as create_left_graph_p1, predicate 
 from productions.p10 import create_left_graph as create_left_graph_p10, predicate as predicate_p10, transition as transition_p10
 from tests.p9_test import create_test_graph
 
-@pytest.mark.skip(reason="p1 production is totally broken in this case")
+# @pytest.mark.skip(reason="p1 production is totally broken in this case")
 def test_p10():
-    graph, v1 = create_test_graph()
+    graph, v1, _ = create_test_graph()
 
     graph.show()
 

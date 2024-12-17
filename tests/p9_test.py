@@ -108,7 +108,35 @@ def get_vertex(graph: Graph, label: str):
     raise ValueError("vertex not found in graph")
 
 
-def create_bigger_graph(graph: Graph):
+def create_bigger_graph():
+    graph = Graph()
+
+    v1 = Node(label="1", x=0, y=0, h=False)
+    v2 = Node(label="2", x=10, y=0, h=False)
+    v3 = Node(label="3", x=10, y=10, h=False)
+    v4 = Node(label="4", x=0, y=10, h=False)
+    v5 = Node(label="5", x=15, y=5, h=False)
+    p = NodeQ(label="P", x=5, y=5, R=True)
+
+    edge_vertices = [v1, v2, v5, v3, v4]
+
+    graph.add_node(v1)
+    graph.add_node(v2)
+    graph.add_node(v3)
+    graph.add_node(v4)
+    graph.add_node(v5)
+    graph.add_node(p)
+
+    # edge between edge_vertices and p
+    for node in edge_vertices:
+        graph.add_edge(node, p)
+
+    graph.add_edge(v1, v2, True)
+    graph.add_edge(v2, v5, True)
+    graph.add_edge(v5, v3, False)
+    graph.add_edge(v3, v4, False)
+    graph.add_edge(v4, v1, False)
+
     nodes = [
         Node(label="X1", x=-10, y=0, h=False),
         Node(label="X2", x=-7.5, y=12.5, h=False),
@@ -116,11 +144,6 @@ def create_bigger_graph(graph: Graph):
         Node(label="X4", x=17.5, y=10, h=False)        
         ]
     
-    v1 = get_vertex(graph, '1')
-    v4 = get_vertex(graph, '4')
-    v3 = get_vertex(graph, '3')
-    v5 = get_vertex(graph, '5')
-
     q1_x, q1_y = center_coords([nodes[0], v4])
     q2_x, q2_y = center_coords([nodes[2], v4])
     q3_x, q3_y = center_coords([nodes[3], v3])
@@ -136,9 +159,9 @@ def create_bigger_graph(graph: Graph):
 
     graph.add_edge(nodes[0], v1, True)
     graph.add_edge(nodes[0], nodes[1], True)
-    graph.add_edge(nodes[1], v4)
+    graph.add_edge(nodes[1], v4, False)
     graph.add_edge(nodes[1], nodes[2], True)
-    graph.add_edge(nodes[2], v3)
+    graph.add_edge(nodes[2], v3, False)
     graph.add_edge(nodes[2], nodes[3], True)
     graph.add_edge(nodes[3], v5, True)
 
@@ -161,15 +184,14 @@ def create_bigger_graph(graph: Graph):
 
 
 def test_p9_isomorphism():
-    graph = create_start_graph()
+    graph = create_bigger_graph()    
+
     left_graph = create_left_graph()
     production = Production(left_graph, transition, predicate)
 
-    create_bigger_graph(graph)    
-
-    # graph.show()
+    graph.show()
     applied = graph.apply_production(production)
-    # graph.show()
+    graph.show()
 
     assert applied # is left graph detected
     assert len(graph.nodes) == 23 # number of nodes
@@ -209,16 +231,16 @@ def create_test_graph():
     graph.add_node(q1)
     graph.add_node(q2)
 
-    graph.add_edge(v1, v7, True)
-    graph.add_edge(v2, v8)
-    graph.add_edge(v7, v8)
+    graph.add_edge(v1, v7, False)
+    graph.add_edge(v2, v8, True)
+    graph.add_edge(v7, v8, True)
     graph.add_edge(v1, q1)
     graph.add_edge(v2, q1)
     graph.add_edge(v7, q1)
     graph.add_edge(v8, q1)
 
-    graph.add_edge(v4, v9)
-    graph.add_edge(v9, v7)
+    graph.add_edge(v4, v9, True)
+    graph.add_edge(v9, v7, True)
 
     graph.add_edge(v1, q2)
     graph.add_edge(v4, q2)
@@ -226,17 +248,17 @@ def create_test_graph():
     graph.add_edge(v7, q2)
 
     # edge between edge_vertices
-    graph.add_edge(v1, v2, True)
-    graph.add_edge(v2, v5)
-    graph.add_edge(v5, v3)
-    graph.add_edge(v3, v4)
-    graph.add_edge(v4, v1, True)
+    graph.add_edge(v1, v2, False)
+    graph.add_edge(v2, v5, True)
+    graph.add_edge(v5, v3, True)
+    graph.add_edge(v3, v4, True)
+    graph.add_edge(v4, v1, False)
 
     # edge between edge_vertices and p
     for node in edge_vertices:
         graph.add_edge(node, p)
 
-    return graph, v1
+    return graph, v1, p
 
 # def test_p1():
     

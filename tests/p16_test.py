@@ -49,11 +49,13 @@ def test_p16_a():
 
     graph.show()
 
-@pytest.mark.skip(reason="Probably searching for isomorphism finds wrong graph or get_node() is broken")
+# @pytest.mark.skip(reason="Probably searching for isomorphism finds wrong graph or get_node() is broken")
 def test_p16_b():
     
-    graph, _ = create_test_graph_p9()
+    graph, _, p = create_test_graph_p9()
+    p.R = False
 
+    graph.show()
     left_graph = create_left_graph_p16()
     production = Production(left_graph, transition_p16, predicate_p16)
     applied = graph.apply_production(production)
