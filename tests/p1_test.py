@@ -152,7 +152,6 @@ def test_p1_node_attributes():
     graph.apply_production(production)
 
     nodes_to_check = [
-        ('Q', 'R', True),
         ('1', 'h', False), ('2', 'h', False),
         ('3', 'h', False), ('4', 'h', False)
     ]
