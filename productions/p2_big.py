@@ -1,6 +1,5 @@
 from GramatykiGrafowe import Graph, Node, NodeQ, Production
-from productions.p2 import create_left_graph, transition, predicate
-
+from p2 import create_left_graph, transition, predicate
 
 def create_start_graph():
     graph = Graph()
