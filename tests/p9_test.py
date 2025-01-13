@@ -258,7 +258,7 @@ def create_test_graph():
     for node in edge_vertices:
         graph.add_edge(node, p)
 
-    return graph, v1, p
+    return graph
 
 # def test_p1():
     
