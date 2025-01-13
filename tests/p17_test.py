@@ -119,11 +119,11 @@ def create_test_graph():
     edges4 = [
         (v17, v41, True),
         (v32, v41, True),
-        (v41, p41, False),
-        (v17, p41, False),
-        (v15, p41, False),
-        (v24, p41, False),
-        (v32, p41, False),
+        (v41, p41, None),
+        (v17, p41, None),
+        (v15, p41, None),
+        (v24, p41, None),
+        (v32, p41, None),
     ]
     
     for node in nodes1 + nodes2 + nodes3 + nodes4:
@@ -133,6 +133,15 @@ def create_test_graph():
 
     return graph
 
+def test_p17():
+    graph = create_test_graph()
+    graph.show()
+    left_graph = create_left_graph()
+    production = Production(left_graph, transition, predicate)
+    applied = graph.apply_production(production)
+    graph.show()
+    assert applied
+    # return
 
 if __name__ == "__main__":
     graph = create_test_graph()

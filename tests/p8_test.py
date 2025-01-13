@@ -1,6 +1,6 @@
 from GramatykiGrafowe import Graph, Node, NodeQ, Production
 from GramatykiGrafowe.utils import center_coords
-from p8 import create_left_graph, predicate, transition
+from productions.p8 import create_left_graph, predicate, transition
 
 def create_test_graph():
     graph = Graph()
@@ -38,10 +38,10 @@ def create_test_graph():
     p41 = NodeQ(label="P", x=p41x, y=p41y, R=True)
     nodes4 = [v41, p41]
     edges1 = [
-        (v11, q1, False),
-        (v13, q1, False),
-        (v15, q1, False),
-        (v17, q1, False),
+        (v11, q1, None),
+        (v13, q1, None),
+        (v15, q1, None),
+        (v17, q1, None),
         (v11, v13, True),
         (v13, v14, False),
         (v14, v15, False),
@@ -60,40 +60,40 @@ def create_test_graph():
         (v23, v26, False),
         (v25, v26, False),
         (v14, v26, False),
-        (v13, q21, False),
-        (v21, q21, False),
-        (v26, q21, False),
-        (v14, q21, False),
-        (v21, q22, False),
-        (v22, q22, False),
-        (v23, q22, False),
-        (v26, q22, False),
-        (v26, q23, False),
-        (v23, q23, False),
-        (v24, q23, False),
-        (v25, q23, False),
-        (v14, q24, False),
-        (v26, q24, False),
-        (v25, q24, False),
-        (v15, q24, False),
+        (v13, q21, None),
+        (v21, q21, None),
+        (v26, q21, None),
+        (v14, q21, None),
+        (v21, q22, None),
+        (v22, q22, None),
+        (v23, q22, None),
+        (v26, q22, None),
+        (v26, q23, None),
+        (v23, q23, None),
+        (v24, q23, None),
+        (v25, q23, None),
+        (v14, q24, None),
+        (v26, q24, None),
+        (v25, q24, None),
+        (v15, q24, None),
     ]
     edges3 = [
         (v22, v31, True),
         (v24, v32, False),
         (v31, v32, True),
-        (v22, q31, False),
-        (v31, q31, False),
-        (v32, q31, False),
-        (v24, q31, False),
+        (v22, q31, None),
+        (v31, q31, None),
+        (v32, q31, None),
+        (v24, q31, None),
     ]
     edges4 = [
         (v17, v41, True),
         (v32, v41, True),
-        (v41, p41, False),
-        (v17, p41, False),
-        (v15, p41, False),
-        (v24, p41, False),
-        (v32, p41, False),
+        (v41, p41, None),
+        (v17, p41, None),
+        (v15, p41, None),
+        (v24, p41, None),
+        (v32, p41, None),
     ]
     
     for node in nodes1 + nodes2 + nodes3 + nodes4:
@@ -102,6 +102,16 @@ def create_test_graph():
         graph.add_edge(node1, node2, B)
 
     return graph
+
+def test_p8():
+    graph = create_test_graph()
+    graph.show()
+    left_graph = create_left_graph()
+    production = Production(left_graph, transition, predicate)
+    applied = graph.apply_production(production)
+    graph.show()
+    assert applied
+    # return
 
 
 if __name__ == "__main__":
