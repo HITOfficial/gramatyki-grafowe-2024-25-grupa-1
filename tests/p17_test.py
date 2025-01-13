@@ -1,6 +1,6 @@
 from GramatykiGrafowe import Graph, Node, NodeQ, Production
 from GramatykiGrafowe.utils import center_coords
-from p17 import create_left_graph, predicate, transition
+from productions.p17 import create_left_graph, predicate, transition
 
 
 def create_test_graph():

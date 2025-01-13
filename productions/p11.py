@@ -37,6 +37,9 @@ def transition(g: Graph, get_node):
     edge_b_25 = g.get_edge_b_value(v2, v5)
     edge_b_53 = g.get_edge_b_value(v5, v3)
     edge_b_34 = g.get_edge_b_value(v3, v4)
+    g.remove_edge(v2, v5)
+    g.remove_edge(v5, v3)
+    g.remove_edge(v3, v4)
     
     # create new nodes
     x, y = center_coords([v1, v2, v3, v4, v5])

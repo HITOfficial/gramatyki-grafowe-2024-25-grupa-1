@@ -1,6 +1,6 @@
 from GramatykiGrafowe import Graph, Node, NodeQ, Production
 from GramatykiGrafowe.utils import center_coords
-from p11 import create_left_graph, predicate, transition
+from productions.p11 import create_left_graph, predicate, transition
 
 
 def create_test_graph():
@@ -136,8 +136,13 @@ def create_test_graph():
 
 if __name__ == "__main__":
     graph = create_test_graph()
-    graph.show()
+    # graph.show()
     left_graph = create_left_graph()
     production = Production(left_graph, transition, predicate)
     applied = graph.apply_production(production)
     graph.show()
+
+
+
+# Transition: 15(h=0) 17(h=0) 32(h=0) 24(h=0) 41(h=0) ||16(h=1) 25(h=1) P(R=1)
+# Transition: 15(h=0) 24(h=0) 41(h=0) 17(h=0) 32(h=0) ||25(h=1) 16(h=1) P(R=1)
