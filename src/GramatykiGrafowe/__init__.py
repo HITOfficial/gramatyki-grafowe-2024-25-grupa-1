@@ -49,6 +49,12 @@ class NodeQ(NodeAbstart):
         y = (v1.y + v2.y + v3.y + v4.y) / 4
         return NodeQ(x = x, y = y, R = R)
 
+    @staticmethod
+    def from_nodes5(v1: Node, v2: Node, v3: Node, v4: Node, v5: Node, R: bool = None):
+        x = (v1.x + v2.x + v3.x + v4.x + v5.x) / 5
+        y = (v1.y + v2.y + v3.y + v4.y + v5.y) / 5
+        return NodeQ(x = x, y = y, R = R)
+
 
 class Node(NodeAbstart):
 
@@ -114,7 +120,7 @@ class Graph:
         matcher = nx.algorithms.isomorphism.GraphMatcher(
             self.underlying, production.left_graph.underlying, node_match=node_match
         )
-        subgraph_isomorphic = matcher.subgraph_is_isomorphic()
+        # subgraph_isomorphic = matcher.subgraph_is_isomorphic()
 
         def get_izo_node(mapping, left, id: int):
             return mapping[left.get_node(id)]
@@ -124,11 +130,11 @@ class Graph:
             partial = lambda node_id: get_izo_node(reverse_mapping, production.left_graph, node_id)
             if production.predicate(partial):
                 production.transition(self, partial)
-                break
+                return True
 
-        return subgraph_isomorphic
+        return False
 
-    def show(self, with_attr: bool = True, attr_label_offset: float = -0.5):
+    def show(self, with_attr: bool = True, attr_label_offset: float = -0.5, skip_q_nodes = False):
         _, ax = plt.subplots()
         ax.set_aspect("equal", adjustable="datalim")
         ax.set(xlabel="$x$", ylabel="$y$")

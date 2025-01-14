@@ -141,6 +141,10 @@ def create_start_graph():
     return graph
 
 
+def producion():
+    return Production(create_left_graph(), transition, predicate)
+
+
 if __name__ == "__main__":
     graph = create_start_graph()
     left_graph = create_left_graph()

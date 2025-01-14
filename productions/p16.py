@@ -19,7 +19,7 @@ def create_left_graph():
     v3 = Node(id=3)
     v4 = Node(id=4)
     v5 = Node(id=5)
-    p = Node(id=6)
+    p = NodeQ(id=6)
 
     edge_vertices = [v1, v2, v3, v4, v5]
 
@@ -59,6 +59,10 @@ def create_start_graph():
         graph.add_edge(v, p)
 
     return graph
+
+
+def producion():
+    return Production(create_left_graph(), transition, predicate)
 
 
 if __name__ == "__main__":
