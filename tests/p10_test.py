@@ -1,4 +1,3 @@
-import pytest
 from GramatykiGrafowe import Graph, Node, NodeQ, Production
 from productions.p10 import create_left_graph, predicate, transition
 
@@ -8,7 +7,7 @@ from productions.p1 import create_left_graph as create_left_graph_p1, predicate 
 def test_p10():
     graph, v1 = create_test_graph()
 
-    graph.show()
+    # graph.show()
 
     left_graph = create_left_graph_p1()
     production = Production(left_graph, transition_p1, predicate_p1)
@@ -16,13 +15,13 @@ def test_p10():
 
     assert applied
 
-    graph.show()
+    # graph.show()
 
     left_graph = create_left_graph()
     production = Production(left_graph, transition=transition, predicate=predicate)
     applied = graph.apply_production(production)
 
-    graph.show()
+    # graph.show()
 
     # import pdb
     # pdb.set_trace()
