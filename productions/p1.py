@@ -23,7 +23,10 @@ def transition(g: Graph, get_node):
     v34 = Node(x=(v3.x + v4.x) / 2, y=(v3.y + v4.y) / 2)
     v41 = Node(x=(v4.x + v1.x) / 2, y=(v4.y + v1.y) / 2)
 
-    v_center = Node(x=(v1.x + v2.x + v3.x + v4.x) / 4, y=(v1.y + v2.y + v3.y + v4.y) / 4)
+    v_center = Node(
+        x=(v1.x + v2.x + v3.x + v4.x) / 4,
+        y=(v1.y + v2.y + v3.y + v4.y) / 4,
+        h=False)
 
     g.remove_edge(v1, v2)
     g.remove_edge(v2, v3)
@@ -34,10 +37,10 @@ def transition(g: Graph, get_node):
     g.remove_edge(v3, q)
     g.remove_edge(v4, q)
 
-    q1 = NodeQ(x=(v1.x + v12.x) / 2, y=(v1.y + v41.y) / 2)
-    q2 = NodeQ(x=(v12.x + v2.x) / 2, y=(v2.y + v23.y) / 2)
-    q3 = NodeQ(x=(v3.x + v34.x) / 2, y=(v23.y + v3.y) / 2)
-    q4 = NodeQ(x=(v34.x + v4.x) / 2, y=(v4.y + v41.y) / 2)
+    q1 = NodeQ.from_nodes(v1, v12, v_center, v41)
+    q2 = NodeQ.from_nodes(v12, v2, v23, v_center)
+    q3 = NodeQ.from_nodes(v_center, v23, v3, v34)
+    q4 = NodeQ.from_nodes(v41, v_center, v34, v4)
 
     g.remove_node(q)
 
@@ -124,6 +127,10 @@ def create_start_graph():
         graph.add_edge(node1, node2)
 
     return graph
+
+
+def producion():
+    return Production(create_left_graph(), transition, predicate)
 
 
 if __name__ == "__main__":

@@ -14,6 +14,7 @@ def transition(g: Graph, get_node):
 def create_left_graph():
     graph = Graph()
 
+
     v1 = Node(id=1, h=False)
     v2 = Node(id=2, h=False)
     v3 = Node(id=3, h=False)
@@ -59,6 +60,10 @@ def create_start_graph():
         graph.add_edge(v, p)
 
     return graph
+
+
+def producion():
+    return Production(create_left_graph(), transition, predicate)
 
 
 if __name__ == "__main__":
