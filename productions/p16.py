@@ -14,12 +14,13 @@ def transition(g: Graph, get_node):
 def create_left_graph():
     graph = Graph()
 
-    v1 = Node(id=1)
-    v2 = Node(id=2)
-    v3 = Node(id=3)
-    v4 = Node(id=4)
-    v5 = Node(id=5)
-    p = NodeQ(id=6)
+
+    v1 = Node(id=1, h=False)
+    v2 = Node(id=2, h=False)
+    v3 = Node(id=3, h=False)
+    v4 = Node(id=4, h=False)
+    v5 = Node(id=5, h=False)
+    p = NodeQ(id=6, R=False)
 
     edge_vertices = [v1, v2, v3, v4, v5]
 
@@ -44,7 +45,7 @@ def create_start_graph():
     v3 = Node(label="3", x=10, y=10, h=False)
     v4 = Node(label="4", x=0, y=10, h=False)
     v5 = Node(label="5", x=-5, y=5, h=False)
-    p = NodeQ(label="P", x=5, y=5, R=True)
+    p = NodeQ(label="P", x=5, y=5, R=False)
 
     edge_vertices = [v1, v2, v3, v4, v5]
 
