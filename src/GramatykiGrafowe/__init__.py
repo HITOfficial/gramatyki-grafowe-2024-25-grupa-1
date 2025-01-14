@@ -93,9 +93,9 @@ class Graph:
     def remove_edge(self, u: NodeAbstart, v: NodeAbstart) -> None:
         self.underlying.remove_edge(u, v)
 
-    def get_edge_b_value(self, u: NodeAbstart, v: NodeAbstart) -> None:
+    def get_edge_b_value(self, u: NodeAbstart, v: NodeAbstart) -> bool:
         b_values = nx.get_edge_attributes(self.underlying, "B")
-        return b_values.get((u, v)) or b_values.get((v, u))
+        return bool(b_values.get((u, v)) or b_values.get((v, u)))
 
     def has_node(self, node: NodeAbstart) -> bool:
         return node in self.underlying
