@@ -1,7 +1,8 @@
-import pytest
 from GramatykiGrafowe import Graph, Node, NodeQ, Production
 from GramatykiGrafowe.utils import center_coords
 from productions.p16 import create_left_graph as create_left_graph_p16, predicate as predicate_p16, transition as transition_p16
+
+from productions.p9 import create_left_graph as create_left_graph_p9, predicate as predicate_p9, transition as transition_p9
 
 def create_test_graph():
     graph = Graph()
@@ -36,18 +37,17 @@ def create_test_graph():
 
     return graph
 
-@pytest.mark.skip()
 def test_p16_a():
     
     graph = create_test_graph()
 
-    graph.show()
+    # graph.show()
 
     left_graph = create_left_graph_p16()
     production = Production(left_graph, transition_p16, predicate_p16)
     applied = graph.apply_production(production)
 
-    graph.show()
+    # graph.show()
 
     assert applied
 
@@ -126,18 +126,38 @@ def create_bigger_graph():
     return graph, p
 
 
-# @pytest.mark.skip(reason="Probably searching for isomorphism finds wrong graph or get_node() is broken")
 def test_p16_b():
     
     graph, p = create_bigger_graph()
     p.R = False
 
-    graph.show()
+    # graph.show()
     left_graph = create_left_graph_p16()
     production = Production(left_graph, transition_p16, predicate_p16)
     applied = graph.apply_production(production)
 
-    graph.show()
+    # graph.show()
 
     assert applied
     
+
+def test_p16_c():
+    
+    graph, p = create_bigger_graph()
+    p.R = False
+
+    # graph.show()
+
+    left_graph = create_left_graph_p16()
+    production = Production(left_graph, transition_p16, predicate_p16)
+    applied = graph.apply_production(production)
+
+    # graph.show()
+
+    left_graph = create_left_graph_p9()
+    production = Production(left_graph, transition_p9, predicate_p9)
+    applied = graph.apply_production(production)
+
+    # graph.show()
+
+    assert applied

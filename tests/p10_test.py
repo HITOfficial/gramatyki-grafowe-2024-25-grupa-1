@@ -1,18 +1,27 @@
-import pytest
 from GramatykiGrafowe import Graph, Node, NodeQ, Production
 from productions.p10 import create_left_graph, predicate, transition
+
+from productions.p1 import create_left_graph as create_left_graph_p1, predicate as predicate_p1, transition as transition_p1
 
 # @pytest.mark.skip(reason="p1 production is totally broken in this case")
 def test_p10():
     graph, v1 = create_test_graph()
 
-    graph.show()
+    # graph.show()
+
+    left_graph = create_left_graph_p1()
+    production = Production(left_graph, transition_p1, predicate_p1)
+    applied = graph.apply_production(production)
+
+    assert applied
+
+    # graph.show()
 
     left_graph = create_left_graph()
     production = Production(left_graph, transition=transition, predicate=predicate)
     applied = graph.apply_production(production)
 
-    graph.show()
+    # graph.show()
 
     # import pdb
     # pdb.set_trace()
@@ -39,7 +48,7 @@ def create_test_graph():
     q1 = NodeQ(label="Q1", x=5, y=-5, R=True)
     q2 = NodeQ(label="Q2", x=-5, y=0, R=False)
 
-    v6 = Node(label="6", x=5, y=0, h=True)
+    # v6 = Node(label="6", x=5, y=0, h=True)
 
     edge_vertices = [v1, v2, v5, v3, v4]
 
@@ -82,7 +91,8 @@ def create_test_graph():
     for node in edge_vertices:
         graph.add_edge(node, p)
 
-    graph.add_edge(v1, v6, False)
-    graph.add_edge(v6, v2, False)
+    # graph.add_edge(v1, v6, False)
+    # graph.add_edge(v6, v2, False)
+    graph.add_edge(v1, v2, False)
 
     return graph, v1

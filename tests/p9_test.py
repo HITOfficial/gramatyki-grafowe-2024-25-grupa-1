@@ -189,9 +189,9 @@ def test_p9_isomorphism():
     left_graph = create_left_graph()
     production = Production(left_graph, transition, predicate)
 
-    graph.show()
+    # graph.show()
     applied = graph.apply_production(production)
-    graph.show()
+    # graph.show()
 
     assert applied # is left graph detected
     assert len(graph.nodes) == 23 # number of nodes
@@ -264,13 +264,13 @@ def create_test_graph():
     
 #     graph, v1 = create_test_graph()
 
-#     graph.show()
+#     # graph.show()
 
 #     left_graph = create_left_graph_p9()
 #     production = Production(left_graph, transition_p9, predicate_p9)
 #     applied = graph.apply_production(production)
 
-#     graph.show()
+#     # graph.show()
 
 #     # import pdb
 #     # pdb.set_trace()
