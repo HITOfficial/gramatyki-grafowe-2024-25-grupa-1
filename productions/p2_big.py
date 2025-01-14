@@ -1,5 +1,6 @@
-from GramatykiGrafowe import Graph, Node, NodeQ, Production
-from p2 import create_left_graph, transition, predicate
+from GramatykiGrafowe import Graph, Node, NodeQ
+import p2
+
 
 def create_start_graph():
     graph = Graph()
@@ -15,8 +16,8 @@ def create_start_graph():
     v9 = Node(label="9", x=-10, y=-10, h=False)
     v10 = Node(label="10", x=0, y=-10, h=False)
     v12 = Node(label="12", x=10, y=-10, h=False)
-    q1 = NodeQ(x=5, y=-5, R=True)
-    q2 = NodeQ(x=-5, y=5, R=True)
+    q1 = NodeQ.from_nodes(v1, v2, v12, v10, True)
+    q2 = NodeQ.from_nodes(v4, v6, v8, v1, True)
 
     nodes = [
         v1, v2, v3, v4,
@@ -65,11 +66,10 @@ def create_start_graph():
 if __name__ == "__main__":
 
     graph = create_start_graph()
-    left_graph = create_left_graph()
-    production = Production(left_graph, transition, predicate)
-    
+    graph.show()
+    production = p2.producion()
+
     while graph.apply_production(production):
-        pass
-    
-    
+         pass
+        
     graph.show()
