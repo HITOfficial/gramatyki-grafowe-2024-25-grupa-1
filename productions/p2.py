@@ -26,10 +26,14 @@ def transition(g: Graph, get_node):
     e41B = g.get_edge_b_value(v4, v1)
 
     v12 = Node(x=(v1.x + v2.x) / 2, y=(v1.y + v2.y) / 2, h = not e12B)
+    v5.h = False
     v34 = Node(x=(v3.x + v4.x) / 2, y=(v3.y + v4.y) / 2, h = not e34B)
     v41 = Node(x=(v4.x + v1.x) / 2, y=(v4.y + v1.y) / 2, h = not e41B)
 
-    v_center = Node(x=(v1.x + v2.x + v3.x + v4.x) / 4, y=(v1.y + v2.y + v3.y + v4.y) / 4)
+    v_center = Node(
+        x=(v1.x + v2.x + v3.x + v4.x) / 4,
+        y=(v1.y + v2.y + v3.y + v4.y) / 4,
+        h = True)
 
 
     g.remove_edge(v1, v2)
