@@ -5,7 +5,7 @@ def predicate(get_node):
     v5 = get_node(5)
     q = get_node(6)
     q2 = get_node(7)
-    return not any([not q.R, v5.h, q2.R])
+    return not q.R and v5.h and q2.R
 
 
 def transition(g: Graph, get_node):
