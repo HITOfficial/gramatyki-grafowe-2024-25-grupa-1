@@ -2,33 +2,13 @@ from GramatykiGrafowe import Graph, Node, NodeQ, Production
 
 
 def predicate(get_node):
-    v1 = get_node(1)
-    v2 = get_node(2)
-    v3 = get_node(3)
-    v4 = get_node(4)
     q = get_node(5)
-
-    return q.R == 0 and not v1.h and not v2.h and not v3.h and not v4.h
+    return q.R == 0
 
 
 def transition(graph: Graph, get_node):
-    v1 = get_node(1)
-    v2 = get_node(2)
-    v3 = get_node(3)
-    v4 = get_node(4)
     q = get_node(5)
-
     q.R = 1  
-
-    graph.remove_edge(v1, q)
-    graph.remove_edge(v2, q)
-    graph.remove_edge(v3, q)
-    graph.remove_edge(v4, q)
-
-    graph.add_edge(q, v1)
-    graph.add_edge(q, v2)
-    graph.add_edge(q, v3)
-    graph.add_edge(q, v4)
 
 
 def create_left_graph():
@@ -76,7 +56,7 @@ def create_start_graph():
 
 
 def producion():
-    return Production(create_left_graph(), transition, predicate)
+    return Production(create_left_graph(), transition, predicate, 5)
 
 
 if __name__ == "__main__":

@@ -69,10 +69,11 @@ class Node(NodeAbstart):
 
 
 class Production:
-    def __init__(self, left_graph: Graph, transition, predicate):
+    def __init__(self, left_graph: Graph, transition, predicate, q_id = None):
         self.left_graph = left_graph
         self.transition = transition
         self.predicate = predicate
+        self.q_id = q_id
 
 
 class Graph:
@@ -112,7 +113,7 @@ class Graph:
     def has_node(self, node: NodeAbstart) -> bool:
         return node in self.underlying
 
-    def apply_production(self, production: Production):
+    def apply_production(self, production: Production, x = None, y = None):
 
         def node_match(n1, n2):
             return type(n1['node']) == type(n2['node'])
@@ -128,11 +129,32 @@ class Graph:
         for mapping in matcher.subgraph_monomorphisms_iter():
             reverse_mapping = dict((v, k) for k, v in mapping.items())
             partial = lambda node_id: get_izo_node(reverse_mapping, production.left_graph, node_id)
+
             if production.predicate(partial):
+                if x is not None and y is not None:
+                    q = partial(production.q_id)
+                    if q.x == x and q.y == y:
+                        production.transition(self, partial)
+                        return True
+                    continue
+
                 production.transition(self, partial)
                 return True
 
         return False
+
+    def apply_productions(self, productions):
+    
+        while True:
+            found = False
+            for production in productions:
+                if self.apply_production(production()):
+                    found = True
+                    break
+            
+            if not found:
+                break
+
 
     def show(self, with_attr: bool = True, attr_label_offset: float = -0.5, skip_q_nodes = False):
         _, ax = plt.subplots()

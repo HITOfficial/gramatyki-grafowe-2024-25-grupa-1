@@ -63,7 +63,7 @@ def create_start_graph():
 
 
 def producion():
-    return Production(create_left_graph(), transition, predicate)
+    return Production(create_left_graph(), transition, predicate, 6)
 
 
 if __name__ == "__main__":

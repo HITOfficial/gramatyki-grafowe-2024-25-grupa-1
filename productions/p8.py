@@ -1,5 +1,4 @@
 from GramatykiGrafowe import Graph, Node, NodeQ, Production
-from GramatykiGrafowe.utils import center_coords
 
 def predicate(get_node):
     v5 = get_node(5)
@@ -85,6 +84,10 @@ def create_start_graph():
         graph.add_edge(node1, node2, B)
 
     return graph
+
+
+def producion():
+    return Production(create_left_graph(), transition, predicate, 6)
 
 
 if __name__ == "__main__":
