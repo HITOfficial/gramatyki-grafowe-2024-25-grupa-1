@@ -22,10 +22,21 @@ def transition(g: Graph, get_node):
     v6 = get_node(6)
     q = get_node(7)
 
-    v34 = Node(x=(v3.x + v4.x) / 2, y=(v3.y + v4.y) / 2)
-    v41 = Node(x=(v4.x + v1.x) / 2, y=(v4.y + v1.y) / 2)
+    e16B = g.get_edge_b_value(v1, v6)
+    e25B = g.get_edge_b_value(v2, v5)
+    e34B = g.get_edge_b_value(v3, v4)
+    e41B = g.get_edge_b_value(v4, v1)
 
-    v_center = Node(x=(v1.x + v2.x + v3.x + v4.x) / 4, y=(v1.y + v2.y + v3.y + v4.y) / 4)
+    v34 = Node(x=(v3.x + v4.x) / 2, y=(v3.y + v4.y) / 2, h= not e34B)
+    v41 = Node(x=(v4.x + v1.x) / 2, y=(v4.y + v1.y) / 2, h= not e41B)
+    
+    v6.h = False
+    v5.h = False
+
+    v_center = Node(
+        x=(v1.x + v2.x + v3.x + v4.x) / 4,
+        y=(v1.y + v2.y + v3.y + v4.y) / 4,
+        h = False)
 
     g.remove_edge(v3, v4)
     g.remove_edge(v4, v1)
@@ -34,10 +45,10 @@ def transition(g: Graph, get_node):
     g.remove_edge(v3, q)
     g.remove_edge(v4, q)
 
-    q1 = NodeQ(x=(v1.x + v6.x) / 2, y=(v1.y + v41.y) / 2)
-    q2 = NodeQ(x=(v6.x + v2.x) / 2, y=(v2.y + v5.y) / 2)
-    q3 = NodeQ(x=(v3.x + v34.x) / 2, y=(v5.y + v3.y) / 2)
-    q4 = NodeQ(x=(v34.x + v4.x) / 2, y=(v4.y + v41.y) / 2)
+    q1 = NodeQ.from_nodes(v1, v6, v_center, v41, R=False)
+    q2 = NodeQ.from_nodes(v6, v2, v5, v_center, R=False)
+    q3 = NodeQ.from_nodes(v_center, v5, v3, v34, R=False)
+    q4 = NodeQ.from_nodes(v41, v_center, v34, v4, R=False)
 
     g.remove_node(q)
 
@@ -47,38 +58,40 @@ def transition(g: Graph, get_node):
         g.add_node(node)
 
     edges = [
-        (v1, v6),
-        (v6, v2),
-        (v2, v5),
-        (v5, v3),
-        (v3, v34),
-        (v34, v4),
-        (v4, v41),
-        (v41, v1),
-        (q1, v1),
-        (q1, v6),
-        (q1, v_center),
-        (q1, v41),
-        (q2, v6),
-        (q2, v2),
-        (q2, v5),
-        (q2, v_center),
-        (q3, v_center),
-        (q3, v5),
-        (q3, v3),
-        (q3, v34),
-        (q4, v41),
-        (q4, v_center),
-        (q4, v34),
-        (q4, v4),
-        (v_center, v6),
-        (v_center, v5),
-        (v_center, v34),
-        (v_center, v41),
+        (v1, v6, e16B),
+        (v6, v2, e16B),
+        (v2, v5, e25B),
+        (v5, v3, e25B),
+        (v3, v34, e34B),
+        (v34, v4, e34B),
+        (v4, v41, e41B),
+        (v41, v1, e41B),
+        (q1, v1, None),
+        (q1, v6, None),
+        (q1, v_center, None),
+        (q1, v41, None),
+        (q2, v6, None),
+        (q2, v2, None),
+        (q2, v5, None),
+        (q2, v_center, None),
+        (q3, v_center, None),
+        (q3, v5, None),
+        (q3, v3, None),
+        (q3, v34, None),
+        (q4, v41, None),
+        (q4, v_center, None),
+        (q4, v34, None),
+        (q4, v4, None),
+        (v_center, v6, False),
+        (v_center, v5, False),
+        (v_center, v34, False),
+        (v_center, v41, False),
     ]
 
-    for node1, node2 in edges:
-        g.add_edge(node1, node2)
+    for node1, node2, b in edges:
+        g.add_edge(node1, node2, B=b)
+
+    print('applied p3')
 
 
 def create_left_graph():
@@ -90,7 +103,7 @@ def create_left_graph():
     v4 = Node(id=4)
     v5 = Node(id=5)
     v6 = Node(id=6)
-    q = Node(id=7)
+    q = NodeQ(id=7)
 
     nodes = [v1, v2, v3, v4, v5, v6, q]
 

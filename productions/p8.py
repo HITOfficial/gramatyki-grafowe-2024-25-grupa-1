@@ -10,6 +10,7 @@ def predicate(get_node):
 def transition(g: Graph, get_node):
     q = get_node(6)
     q.R = True
+    print('applied p8')
 
 
 def create_left_graph():

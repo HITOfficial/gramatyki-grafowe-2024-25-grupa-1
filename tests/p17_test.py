@@ -135,19 +135,19 @@ def create_test_graph():
 
 def test_p17():
     graph = create_test_graph()
-    graph.show()
+    # graph.show()
     left_graph = create_left_graph()
     production = Production(left_graph, transition, predicate)
     applied = graph.apply_production(production)
-    graph.show()
+    # graph.show()
     assert applied
     # return
 
 if __name__ == "__main__":
     graph = create_test_graph()
-    graph.show()
+    # graph.show()
     left_graph = create_left_graph()
     production = Production(left_graph, transition, predicate)
     applied = graph.apply_production(production)
-    graph.show()
+    # graph.show()
 

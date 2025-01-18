@@ -1,5 +1,5 @@
 from GramatykiGrafowe import Graph, Node, NodeQ
-import p1, p2, p3, p4, p7, p9, p10, p11, p16
+import p1, p2, p3, p4, p7, p8, p9, p10, p11, p16
 
 def create_start_graph():
     graph = Graph()
@@ -46,29 +46,26 @@ def create_start_graph():
 if __name__ == "__main__":
 
     productions = [
-        p1.producion, p2.producion, p3.producion, p4.producion,
-        p9.producion, p10.producion, p11.producion
+        p1.producion, p2.producion, p3.producion,
+        p9.producion, p10.producion, p11.producion,
+        p16.producion, p8.producion, p8.producion
     ]
-
+    operations = [
+        (p16.producion(), 5.6, 5.0),
+        productions,
+        (p7.producion(), 7.025, 5.0),
+        productions,
+        (p7.producion(), 7.56875, 5.0),
+        productions,
+    ]
     graph = create_start_graph()
-    # graph.show()
-    graph.apply_production(p16.producion(), 5.6, 5)
-    # graph.show()
-    graph.apply_productions(productions)
-    graph.show()
-    graph.apply_production(p7.producion(), 8.625, 6.875)
-    graph.show()    
-    graph.apply_productions(productions)
-    graph.show()
 
-"""
-    applied = graph.apply_production(p16.producion())
-    print(applied)
+    for idx, op in enumerate(operations):
+        if isinstance(op, tuple):
+            graph.apply_production(*op)
+        else:
+            graph.apply_productions(op)
+    
+        # print(f'{idx=}')
+    
     graph.show()
-    applied = graph.apply_productions(productions)
-    print(applied)
-    graph.show()
-    applied = graph.apply_production(p7.producion())
-    print(applied)
-    graph.show()
-"""

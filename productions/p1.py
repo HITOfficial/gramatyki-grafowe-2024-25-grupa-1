@@ -88,6 +88,8 @@ def transition(g: Graph, get_node):
     for node1, node2, b in edges:
         g.add_edge(node1, node2, b)
 
+    print('applied p1')
+
 
 def create_left_graph():
     graph = Graph()

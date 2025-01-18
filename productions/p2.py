@@ -33,7 +33,7 @@ def transition(g: Graph, get_node):
     v_center = Node(
         x=(v1.x + v2.x + v3.x + v4.x) / 4,
         y=(v1.y + v2.y + v3.y + v4.y) / 4,
-        h = True)
+        h = False)
 
 
     g.remove_edge(v1, v2)
@@ -89,6 +89,8 @@ def transition(g: Graph, get_node):
 
     for node1, node2, B in edges:
         g.add_edge(node1, node2, B)
+
+    print('applied p2')
 
 
 def create_left_graph():

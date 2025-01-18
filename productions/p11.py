@@ -135,6 +135,8 @@ def transition(g: Graph, get_node):
     v7.h = False
     v7.label = "v"
 
+    print('applied p11')
+
 
 def create_left_graph():
     graph = Graph()

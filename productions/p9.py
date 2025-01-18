@@ -148,6 +148,8 @@ def transition(g: Graph, get_node):
     g.add_edge(v_center, v34, False)
     g.add_edge(v_center, v41, False)
 
+    print('applied p9')
+
 
 def create_left_graph():
     graph = Graph()

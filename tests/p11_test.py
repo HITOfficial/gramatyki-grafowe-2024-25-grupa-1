@@ -136,11 +136,11 @@ def create_test_graph():
 
 def test_p11():
     graph = create_test_graph()
-    graph.show()
+    # graph.show()
     left_graph = create_left_graph()
     production = Production(left_graph, transition, predicate)
     applied = graph.apply_production(production)
-    graph.show()
+    # graph.show()
     assert applied
 
 if __name__ == "__main__":
@@ -149,7 +149,7 @@ if __name__ == "__main__":
     left_graph = create_left_graph()
     production = Production(left_graph, transition, predicate)
     applied = graph.apply_production(production)
-    graph.show()
+    # graph.show()
 
 
 

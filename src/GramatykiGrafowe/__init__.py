@@ -163,6 +163,15 @@ class Graph:
 
         labels = {}
         pos = {}
+        to_remove = []
+
+        if skip_q_nodes:
+            for node in self.underlying.nodes:
+                if isinstance(node, NodeQ):
+                    to_remove.append(node)
+
+            for node in to_remove:
+                self.remove_node(node)
 
         for node in self.underlying.nodes:
             labels[node] = node.label
