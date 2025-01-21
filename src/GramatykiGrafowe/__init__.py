@@ -113,7 +113,7 @@ class Graph:
     def has_node(self, node: NodeAbstart) -> bool:
         return node in self.underlying
 
-    def apply_production(self, production: Production, x = None, y = None):
+    def apply_production(self, production: Production, x = None, y = None) -> bool:
 
         def node_match(n1, n2):
             return type(n1['node']) == type(n2['node'])
@@ -149,6 +149,7 @@ class Graph:
             found = False
             for production in productions:
                 if self.apply_production(production()):
+                    # self.show()
                     found = True
                     break
             

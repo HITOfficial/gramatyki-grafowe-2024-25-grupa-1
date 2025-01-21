@@ -1,5 +1,5 @@
 from GramatykiGrafowe import Graph, Node, NodeQ
-import p1, p2, p7, p8
+import p1, p2, p7, p8, p10, p11, p16, p17, p3, p4, p9
 
 
 Q3_START = (8.625, 6.875)
@@ -56,6 +56,7 @@ def create_start_graph():
 if __name__ == "__main__":
     
     graph = create_start_graph()
+    # graph.show()
 
     init_ops = [
         (p7.producion(), *Q3_START),
@@ -67,6 +68,8 @@ if __name__ == "__main__":
             graph.apply_production(*op)
         else:
             graph.apply_productions(op)
+
+        # graph.show()
     
     ITERS = 2
 
@@ -81,18 +84,18 @@ if __name__ == "__main__":
         lastR = ((lastR[0] + CORNER[0]) / 2, (lastR[1] + CORNER[1]) / 2)
 
         lastQ = ((lastL[0] + lastR[0] + lastQ[0] + CORNER[0]) / 4, (lastL[1] + lastR[1] + lastQ[1] + CORNER[1]) / 4)
-
+        
         # print(lastQ)
 
-        ops = [
-            (p7.producion(), *lastQ),
-            [p8.producion, p2.producion, p1.producion]
-        ]
+        graph.apply_production(p7.producion(), *lastQ)
+        # graph.show()
 
-        for idx, op in enumerate(ops):
-            if isinstance(op, tuple):
-                graph.apply_production(*op)
-            else:
-                graph.apply_productions(op)
+        # p7 not included due to infinite loop
+        ops = [p1.producion, p2.producion, p3.producion,
+               p4.producion, p8.producion, p9.producion,
+               p10.producion, p11.producion, p16.producion,
+               p17.producion]
+        
+        graph.apply_productions(ops)
                 
         graph.show()
