@@ -36,7 +36,7 @@ def transition(g: Graph, get_node):
 
         edge_values.append(val)
 
-    print(edge_values)
+    # print(edge_values)
 
     # remove old edges
     for i in range(len(edge_vertices)):
