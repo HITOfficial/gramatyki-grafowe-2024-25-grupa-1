@@ -6,6 +6,8 @@ from typing import Dict
 import networkx as nx
 from matplotlib import pyplot as plt
 
+from copy import deepcopy
+
 id_global = 100
 
 
@@ -143,13 +145,17 @@ class Graph:
 
         return False
 
-    def apply_productions(self, productions):
+    def apply_productions(self, productions, show_after=False):
     
         while True:
             found = False
             for production in productions:
                 if self.apply_production(production()):
                     found = True
+
+                    if show_after:
+                        self.show(skip_q_nodes=True)
+                    
                     break
             
             if not found:
@@ -157,6 +163,8 @@ class Graph:
 
 
     def show(self, with_attr: bool = True, attr_label_offset: float = -0.5, skip_q_nodes = False):
+        deep_copy = deepcopy(self)
+
         _, ax = plt.subplots()
         ax.set_aspect("equal", adjustable="datalim")
         ax.set(xlabel="$x$", ylabel="$y$")
@@ -166,19 +174,19 @@ class Graph:
         to_remove = []
 
         if skip_q_nodes:
-            for node in self.underlying.nodes:
+            for node in deep_copy.underlying.nodes:
                 if isinstance(node, NodeQ):
                     to_remove.append(node)
 
             for node in to_remove:
-                self.remove_node(node)
+                deep_copy.remove_node(node)
 
-        for node in self.underlying.nodes:
+        for node in deep_copy.underlying.nodes:
             labels[node] = node.label
             pos[node] = (node.x, node.y)
 
         nx.draw(
-            self.underlying, 
+            deep_copy.underlying, 
             pos,
             node_color='lightblue',
             edge_color='gray',
@@ -186,17 +194,20 @@ class Graph:
             labels=labels
         )
 
-        b_values = nx.get_edge_attributes(self.underlying, "B")
-        edge_labels = {(edge): "B=" + str((int)(b_values[edge])) for edge in self.underlying.edges if b_values[edge] is not None}
+        b_values = nx.get_edge_attributes(deep_copy.underlying, "B")
+        edge_labels = {
+            (edge): "B=" + str((int)(b_values[edge]))
+            for edge in deep_copy.underlying.edges
+            if b_values[edge] is not None}
         nx.draw_networkx_edge_labels(
-            self.underlying, pos,
+            deep_copy.underlying, pos,
             edge_labels=edge_labels,
             font_color='black')
 
         if with_attr:
             labels, pos = {}, {}
 
-            for node in self.underlying.nodes:
+            for node in deep_copy.underlying.nodes:
                 pos[node] = (node.x, node.y + attr_label_offset)
                 attr_text = "\n".join(
                     f"{key}={value}"
@@ -205,7 +216,7 @@ class Graph:
                 labels[node] = attr_text
 
             nx.draw_networkx_labels(
-                self.underlying,
+                deep_copy.underlying,
                 pos,
                 labels=labels,
                 font_weight='light',

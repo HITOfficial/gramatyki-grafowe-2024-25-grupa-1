@@ -59,13 +59,16 @@ if __name__ == "__main__":
         productions,
     ]
     graph = create_start_graph()
+    # graph.show(skip_q_nodes=True)
 
     for idx, op in enumerate(operations):
+        # print(f'{idx=}')
+
         if isinstance(op, tuple):
             graph.apply_production(*op)
+            # graph.show(skip_q_nodes=True)
         else:
-            graph.apply_productions(op)
-    
-        # print(f'{idx=}')
-    
-    graph.show()
+            graph.apply_productions(op, show_after=False)
+
+
+    graph.show(skip_q_nodes=True)
