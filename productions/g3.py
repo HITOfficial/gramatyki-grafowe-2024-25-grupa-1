@@ -59,14 +59,10 @@ if __name__ == "__main__":
     graph = create_start_graph()
     
     productions = [
-<<<<<<< HEAD
         p1.producion, p2.producion, 
         p3.producion, p4.producion,
         p8.producion, p9.producion, 
         p10.producion, p11.producion, p17.producion,
-=======
-        p1.producion, p8.producion,  p17.producion, p10.producion, p2.producion, p3.producion,
->>>>>>> group3
     ]
 
     operations = [
@@ -83,8 +79,8 @@ if __name__ == "__main__":
             graph.apply_production(*op)
         else:
             graph.apply_productions(op)
-        print(f"{idx=}")
-        graph.show()
+        # print(f"{idx=}")
+        # graph.show()
 
     # print_node_coordinates(graph)
-    # graph.show()
+    graph.show()
