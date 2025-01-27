@@ -1,7 +1,7 @@
 from GramatykiGrafowe import Graph, Node, NodeQ, Production
 
 
-def predicate(get_node):
+def predicate(get_node, base_graph):
     q = get_node(5)
     return q.R == 0
 

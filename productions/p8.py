@@ -1,10 +1,12 @@
 from GramatykiGrafowe import Graph, Node, NodeQ, Production
 
-def predicate(get_node):
+def predicate(get_node, base_graph):
     v5 = get_node(5)
     q = get_node(6)
     q2 = get_node(7)
-    return not q.R and v5.h and q2.R
+    if len(base_graph.edges(q)) == 4:
+        return not q.R and v5.h and q2.R
+    return False
 
 
 def transition(g: Graph, get_node):

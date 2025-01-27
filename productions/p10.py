@@ -2,7 +2,7 @@ from GramatykiGrafowe import Graph, Node, NodeQ, Production
 from GramatykiGrafowe.utils import center_coords
 
 
-def predicate(get_node):
+def predicate(get_node, base_graph):
     v1 = get_node(1)
     v2 = get_node(2)
     v3 = get_node(3)

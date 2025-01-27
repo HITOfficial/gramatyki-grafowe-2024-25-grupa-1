@@ -43,7 +43,9 @@ class NodeQ(NodeAbstart):
         self.R = R
     
     def __repr__(self) -> str:
-        return f"{self.label}(R={(int)(self.R)})"
+        if self.R is not None:
+            return f"{self.label}(R={(int)(self.R)})"
+        return f"{self.label}(R=None)"
 
     @staticmethod
     def from_nodes(v1: Node, v2: Node, v3: Node, v4: Node, R: bool = None):
@@ -131,8 +133,8 @@ class Graph:
         for mapping in matcher.subgraph_monomorphisms_iter():
             reverse_mapping = dict((v, k) for k, v in mapping.items())
             partial = lambda node_id: get_izo_node(reverse_mapping, production.left_graph, node_id)
-
-            if production.predicate(partial):
+            
+            if production.predicate(partial, self.underlying):
                 if x is not None and y is not None:
                     q = partial(production.q_id)
                     if q.x == x and q.y == y:
